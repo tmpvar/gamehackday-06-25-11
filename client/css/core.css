@@ -45,9 +45,12 @@ table {
 
 
 /* Core ---------------------------------------------------------*/
+html {
+  background: #1a1a1a url('/images/html_bg.png') top center repeat;
+}
 
-html, body {
-  background:#1a1a1a;
+body {
+  background: transparent url('/images/giant_fucking_planet.png') top center no-repeat;
   color: #c1c1c1;
   font-size: 14px;
   font-family: Arial, sans-serif;
@@ -55,11 +58,38 @@ html, body {
 
 #wrapper {
   width:600px;
-  margin: 50px auto;
+  padding-top: 60px;
+  margin: 0 auto;
+}
+
+#star-bg {
+  background: transparent url('/images/star_bg.png') 10% 0% repeat;
+  height: 100%;
+}
+
+#render-target {
+  border: 1px solid #333;
 }
 
 #main-title {
-  font-size: 2em;
-  margin-bottom: 20px;
+  font-size: 0;
+  text-indent: -9999px;
   text-align:center;
+  width: 586px;
+  height: 160px;
+  background: transparent url('/images/logo.png') top center no-repeat;
+}
+
+#how-to {
+  margin-top: 30px;
+}
+
+#how-to h2 {
+  font-size: 2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#how-to ul {
 }
