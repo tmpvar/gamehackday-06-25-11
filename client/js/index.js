@@ -2,28 +2,25 @@
   /*
     Bootstrap the browser
   */
+  var processGameState = function(socket, gameState) {
+    gameState.players.forEach(function(player) {
+      var socketInstance = socket.socket;
+      if (!shipInstances[player.id]) {
+        new entities.Ship({ sessionid: player.id }, player);
+      } else {
+        shipInstances[socketInstance.sessionid]._ = JSON.parse(JSON.stringify(player));
+      }
+    });
+  };
 
   window.bootstrap = function() {
     var l      = window.location;
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
     var firstRun = false;
-    var ship     = null;
 
     socket.on('connection', function(gameState) {
-      /*
-        Setup ships
-      */
-      // TODO: make this work for non-es5 browsers
-      gameState.players.forEach(function(player) {
-        if (!shipInstances[player.id]) {
-          var socketInstance = socket.socket;
-          var instance = new entities.Ship(socketInstance, player);
-          if (socketInstance.sessionid === player.id) {
-            ship = instance;
-          }
-        }
-      });
-
+      processGameState(socket, gameState);
+      
       /*
         Keybinds
       */
@@ -42,29 +39,13 @@
         Track key binds
       */
       setInterval(function() {
-        if (!ship) { return; }
-        
         socket.emit('keys', heldKeys);
       }, 33);
 
-      socket.on('tick', function(gameState) {
-        /*
-          Setup ships
-        */
-        // TODO: make this work for non-es5 browsers
-        gameState.players.forEach(function(player) {
-          if (!shipInstances[player.id]) {
-            var socketInstance = socket.socket;
-            var instance = new entities.Ship(socketInstance, player);
-          } else {
-            shipInstances[player.id]._ = JSON.parse(JSON.stringify(player));
-          }
-        });
-      });
 
-      setInterval(function() {
-        
-      }, 0);
+      socket.on('tick', function(gameState) {
+        processGameState(socket, gameState);
+      });
 
       /*
         Render loop
@@ -83,16 +64,6 @@
 
         setTimeout(nextFrame, fps);
       }, fps);
-      
-    });
-
-    socket.on('tick', function(gameState) {
-
     });
   };
-
-  /*
-    Spawn the current user, and send a message to the server
-  */
-
 })(window);
