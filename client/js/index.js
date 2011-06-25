@@ -56,18 +56,15 @@
           if (!shipInstances[player.id]) {
             var socketInstance = socket.socket;
             var instance = new entities.Ship(socketInstance, player);
-            instance.id = socketInstance.sessionid;
           } else {
-            
-            
-            
+            shipInstances[player.id]._ = JSON.parse(JSON.stringify(player));
           }
         });
       });
 
       setInterval(function() {
         
-      }, 0)
+      }, 0);
 
       /*
         Render loop
