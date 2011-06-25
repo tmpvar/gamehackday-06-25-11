@@ -13,7 +13,7 @@
 
   var CONST = {
     THRUST : 10, // units
-    ROTATION_DELTA : 10 // degrees
+    ROTATION_DELTA : 0.1 // degrees
   };
 
   window.bootstrap = function() {
@@ -47,26 +47,26 @@
       */
       setInterval(function() {
         // Up
-        if (heldKeys[38]) {
+        if (heldKeys['38']) {
           // Thrust forward!
           ship.addVelocity(CONST.THRUST);
         }
 
         // Left
-        if (heldKeys[37]) {
+        if (heldKeys['37']) {
           ship.rotate(-CONST.ROTATION_DELTA)
         }
 
         // Right
-        if (heldKeys[39]) {
+        if (heldKeys['39']) {
           ship.rotate(CONST.ROTATION_DELTA)
         }
 
         // Fire!
-        if (heldKeys[32]) {
+        if (heldKeys['32']) {
           ship.fire();
         }
-      }, 16);
+      }, 33);
 
       /*
         Render loop
@@ -87,7 +87,7 @@
         };
 
         setTimeout(nextFrame, fps);
-      },fps)
+      }, fps);
     }();
   };
 

@@ -5,12 +5,17 @@
       scene.players.push(this);
 
       this.render = function(ctx) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(x, y, 100, 100);
-      }
+        ctx.save()
+          ctx.translate(x+50, y+50);
+          ctx.rotate(this._.rotation);
+          ctx.translate(x, y);
+          ctx.fillStyle = "red";
+          ctx.fillRect(x, y, 100, 100);
+        ctx.restore();
+      };
     }
   };
-  
+
   entities.Ship.prototype = {
     _      : {
       rotation : 0,
@@ -18,10 +23,10 @@
       fuel     : 100
     },
     rotate : function(degrees) {
-      this.rotation += degrees;
+      this._.rotation += degrees;
     },
-    addThrust : function(amount) {
-      this.thrust += amount;
+    addVelocity : function(amount) {
+      this._.thrust += amount;
     }
   };
   
