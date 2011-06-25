@@ -27,7 +27,7 @@
         if (that._.y < 0) that._.y = 400
         
         if (typeof $ !== 'undefined') {
-          $("#vel").html(that._.rotation);
+          $("#vel").html(that._.velocity);
         }
         that._.rotation_delta = that._.rotation_delta * 0.99;
       },
@@ -41,7 +41,7 @@
       this.render = function(ctx) {
         ctx.save()
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
-        ctx.rotate(this._.rotation);
+        ctx.rotate(that._.rotation + (Math.PI * 0.5));
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
         ctx.drawImage(im, that._.x, that._.y)
         ctx.restore();
@@ -54,7 +54,7 @@
       rotation_delta: 0,
       thrust_delta: 0,
       rotation: 0,
-      velocity_angle: Math.PI,
+      velocity_angle: 0,
       velocity: 0,
       thrust: 0,
       fuel: 100,
@@ -71,7 +71,11 @@
       var dx = (0.01 * amount) * Math.cos(this._.rotation);
       var dy = (0.01 * amount) * Math.sin(this._.rotation);
       
-      this._.velocity       = Math.sqrt(Math.pow(x + dx, 2), Math.pow(y + dy, 2));
+      console.log(this._.rotation)
+      console.log(dx)
+      console.log(dy)
+      
+      this._.velocity       = Math.sqrt(Math.pow(x + dx, 2) + Math.pow(y + dy, 2));
       this._.velocity_angle = Math.atan((y + dy) / (x + dx));
     }
   };
