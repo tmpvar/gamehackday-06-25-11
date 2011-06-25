@@ -1,7 +1,9 @@
 ;(function(exports) {
   var CONST = {
     THRUST : 10, // units
-    ROTATION_DELTA : 0.006 // degrees
+    ROTATION_DELTA : 0.006, // degrees
+    MAX_SPEED: 3
+    
   };
   
   exports.shipInstances = {};
@@ -33,34 +35,48 @@
       scene.players.push(this);
 
       this.tick = function() {
+        
+        // update the ship position due to speed
         that._.rotation += that._.rotation_delta;
 
         that._.x += Math.cos(that._.velocity_angle) * that._.velocity;
         that._.y += Math.sin(that._.velocity_angle) * that._.velocity;
+        
+        // update the ship position due to gravity
+        // planet_angle = 
+        // 
+        // that._.x += Math.cos(planet_angle) * 2
+        // that._.y += Math.sin(planet_angle) * 2
+        
 
         if (that._.x > 600) that._.x = 0
         if (that._.x < 0) that._.x = 600
         if (that._.y > 400) that._.y = 0
         if (that._.y < 0) that._.y = 400
         
-        if (typeof $ !== 'undefined') {
-          $("#vel").html(that._.velocity);
-        }
         that._.rotation_delta = that._.rotation_delta * 0.95;
+        
       }
 
       if (typeof Image !== 'undefined') {
         var im = new Image();
         im.src = 'assets/ship_default.png'
+        
+        var planet = new Image();
+        planet.src = 'assets/planet_1.png'
       }
 
       this.render = function(ctx) {
+        ctx.drawImage(planet, 200, 100)
+        
         ctx.save()
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(that._.rotation + (Math.PI * 0.5));
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
         ctx.drawImage(im, that._.x, that._.y)
         ctx.restore();
+        
+        
       };
     }
   };
@@ -105,24 +121,29 @@
       y += (0.01 * amount) * Math.sin(this._.rotation);
       
       this._.velocity       = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-      if (this._.velocity > 2) this._.velocity = 2;
+      if (this._.velocity > CONST.MAX_SPEED) this._.velocity = CONST.MAX_SPEED;
       if (this._.velocity < 0) this._.velocity = 0;
       
-      if (x > 0) {
-        this._.velocity_angle = Math.atan(y / x);
-      } else if (x < 0 && y >= 0) {
-        this._.velocity_angle = Math.atan(y / x) + Math.PI;
-      } else if (x < 0 && y < 0) {
-        this._.velocity_angle = Math.atan(y / x) - Math.PI;
-      } else if (x === 0 && y > 0) {
-        this._.velocity_angle = Math.PI / 2;
-      } else if (x === 0 && y < 0) {
-        this._.velocity_angle = 0 - (Math.PI / 2);
-      } else {
-        this._.velocity_angle = 0;
-      }
+      this._.velocity_angle = calc_angle(x, y)
     }
   };
+  
+  function calc_angle(x, y) {
+    if (x > 0) {
+      return Math.atan(y / x);
+    } else if (x < 0 && y >= 0) {
+      return  Math.atan(y / x) + Math.PI;
+    } else if (x < 0 && y < 0) {
+      return  Math.atan(y / x) - Math.PI;
+    } else if (x === 0 && y > 0) {
+      return  Math.PI / 2;
+    } else if (x === 0 && y < 0) {
+      return  0 - (Math.PI / 2);
+    } else {
+      return  0;
+    }
+    
+  }
 
   var scene = exports.scene = {
     removePlayer :  function(player) {
