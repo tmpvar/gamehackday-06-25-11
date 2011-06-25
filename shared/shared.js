@@ -39,17 +39,19 @@
         var x = that._.velocity * Math.cos(that._.velocity_angle);
         var y = that._.velocity * Math.sin(that._.velocity_angle);
 
-        var planet_angle = calc_angle(that._.x - 250, that._.y - 150)
-        var planet_distance = Math.sqrt(Math.pow(that._.x - 250, 2) + Math.pow(that._.y - 150, 2))
-       
-        x += Math.cos(planet_angle) * (-0.001 * planet_distance);
-        y += Math.sin(planet_angle) * (-0.001 * planet_distance);
-        
+        var planet_angle = calc_angle(that._.x - 275, that._.y - 175) - Math.PI
+        var planet_distance = Math.sqrt(Math.pow(that._.x - 275, 2) + Math.pow(that._.y - 175, 2))
+
+        if (planet_distance < 100) planet_distance = 100;
+
+        x += Math.cos(planet_angle) * ((500 / Math.pow(planet_distance, 2)));
+        y += Math.sin(planet_angle) * ((500 / Math.pow(planet_distance, 2)));
+
         // update the ship position due to speed
         that._.rotation += that._.rotation_delta;
-        
-        this._.velocity       = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-      
+
+        this._.velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
         if (this._.velocity > CONST.MAX_SPEED) this._.velocity = CONST.MAX_SPEED;
         if (this._.velocity < 0) this._.velocity = 0;
 
@@ -89,8 +91,6 @@
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
         ctx.drawImage(im, that._.x, that._.y)
         ctx.restore();
-        
-        
       };
     }
   };
