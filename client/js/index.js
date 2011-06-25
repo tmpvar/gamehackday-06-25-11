@@ -44,7 +44,7 @@
       setInterval(function() {
         if (!ship) { return; }
         
-        ship.socket.emit('keys', heldKeys);
+        socket.emit('keys', heldKeys);
       }, 33);
 
       socket.on('tick', function(gameState) {
