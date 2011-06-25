@@ -1,4 +1,9 @@
 ;(function(exports) {
+  var CONST = {
+    THRUST : 10, // units
+    ROTATION_DELTA : 0.006 // degrees
+  };
+  
   exports.shipInstances = {};
   var entities = exports.entities = {
     Ship : function(socket, vals) {
@@ -33,8 +38,8 @@
         that._.x += Math.cos(that._.velocity_angle) * that._.velocity;
         that._.y += Math.sin(that._.velocity_angle) * that._.velocity;
 
-        if (that._.x > 900) that._.x = 0
-        if (that._.x < 0) that._.x = 900
+        if (that._.x > 600) that._.x = 0
+        if (that._.x < 0) that._.x = 600
         if (that._.y > 400) that._.y = 0
         if (that._.y < 0) that._.y = 400
         
@@ -64,6 +69,34 @@
   entities.Ship.prototype = {
     rotate: function(degrees) {
       this._.rotation_delta -= degrees;
+    },
+
+    handleKeys : function(heldKeys) {
+      // Forward
+       if (heldKeys['38']) {
+         // Thrust forward!
+         this.addVelocity(CONST.THRUST);
+       }
+       // Brake
+       if (heldKeys['40']) {
+         // Thrust forward!
+         this.addVelocity(0 - CONST.THRUST);
+       }
+
+       // Left
+       if (heldKeys['37']) {
+         this.rotate(CONST.ROTATION_DELTA);
+       }
+
+       // Right
+       if (heldKeys['39']) {
+         this.rotate(-CONST.ROTATION_DELTA);
+       }
+
+       // Fire!
+       if (heldKeys['32']) {
+         this.fire();
+       }
     },
     addVelocity: function(amount) {
       var x = this._.velocity * Math.cos(this._.velocity_angle);

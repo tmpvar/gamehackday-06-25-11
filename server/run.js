@@ -21,6 +21,10 @@ io.sockets.on('connection', function (socket) {
 
  socket.emit('connection', calculateGameState());
 
+ socket.on('keys', function(heldKeys) {
+  ship.handleKeys(heldKeys);
+ });
+
  socket.on('disconnect', function() {
    shared.scene.removePlayer(ship);
  });
