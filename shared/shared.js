@@ -1,4 +1,5 @@
-;(function() {
+;
+(function() {
   var entities = window.entities = {
     Ship: function(x, y) {
       var that = this;
@@ -20,8 +21,12 @@
         if (that._.y < 0) that._.y = 400
 
         $("#vel").html(that._.rotation)
+        that._.rotation_delta = that._.rotation_delta * 0.99;
       },
       16)
+
+      var im = new Image();
+      im.src = 'assets/ship_default.png'
 
       this.render = function(ctx) {
 
@@ -29,8 +34,9 @@
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(this._.rotation);
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
-        ctx.fillStyle = "red";
-        ctx.fillRect(that._.x, that._.y, 50, 50);
+        // ctx.fillStyle = "red";
+        // ctx.fillRect(that._.x, that._.y, 50, 50);
+        ctx.drawImage(im, that._.x, that._.y)
         ctx.restore();
       };
     }
@@ -42,7 +48,7 @@
       thrust_delta: 0,
       rotation: 0,
       velocity_angle: 0,
-      velocity: 0,
+      velocity: 0.5,
       thrust: 0,
       fuel: 100,
       x: undefined,
@@ -59,11 +65,7 @@
       var dy = (0.1 * amount) * Math.sin(this._.rotation);
 
       this._.velocity_angle = Math.sqrt(Math.pow(x + dx, 2), Math.pow(y + dy, 2));
-      this._.velocity = Math.atan((y + dy) / (x + dx));
-
-      this._.rotation_delta = this._.rotation_delta * 0.5;
-      $("")
-
+      // this._.velocity       = Math.atan((y + dy) / (x + dx));
     }
   };
 

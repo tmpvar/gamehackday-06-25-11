@@ -51,11 +51,10 @@
           // Thrust forward!
           ship.addVelocity(CONST.THRUST);
         }
-
         // Brake
         if (heldKeys['40']) {
           // Thrust forward!
-          ship.addVelocity(- CONST.THRUST);
+          ship.addVelocity(0 - CONST.THRUST);
         }
 
         // Left
