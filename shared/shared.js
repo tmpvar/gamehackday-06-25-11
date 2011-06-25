@@ -62,7 +62,7 @@
       y: undefined
     },
     rotate: function(degrees) {
-      this._.rotation_delta += degrees;
+      this._.rotation_delta -= degrees;
     },
     addVelocity: function(amount) {
       var x = this._.velocity * Math.cos(this._.velocity_angle);
