@@ -68,11 +68,24 @@
       var x = this._.velocity * Math.cos(this._.velocity_angle);
       var y = this._.velocity * Math.sin(this._.velocity_angle);
 
-      var dx = (0.01 * amount) * Math.cos(this._.rotation);
-      var dy = (0.01 * amount) * Math.sin(this._.rotation);
+      x += (0.01 * amount) * Math.cos(this._.rotation);
+      y += (0.01 * amount) * Math.sin(this._.rotation);
       
-      this._.velocity       = Math.sqrt(Math.pow(x + dx, 2) + Math.pow(y + dy, 2));
-      this._.velocity_angle = Math.atan((y + dy) / (x + dx));
+      this._.velocity       = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      
+      if (x > 0) {
+        this._.velocity_angle = Math.atan(y / x);
+      } else if (x < 0 && y >= 0) {
+        this._.velocity_angle = Math.atan(y / x) + Math.PI;
+      } else if (x < 0 && y < 0) {
+        this._.velocity_angle = Math.atan(y / x) - Math.PI;
+      } else if (x === 0 && y > 0) {
+        this._.velocity_angle = Math.PI / 2;
+      } else if (x === 0 && y < 0) {
+        this._.velocity_angle = 0 - (Math.PI / 2);
+      } else {
+        this._.velocity_angle = 0;
+      }
     }
   };
 
