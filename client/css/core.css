@@ -58,11 +58,13 @@ body {
 
 #wrapper {
   width:600px;
-  margin: 50px auto;
+  padding-top: 60px;
+  margin: 0 auto;
 }
 
 #star-bg {
   background: transparent url('/images/star_bg.png') 10% 0% repeat;
+  height: 100%;
 }
 
 #render-target {
@@ -71,10 +73,23 @@ body {
 
 #main-title {
   font-size: 0;
-  margin-top: 20px;
   text-indent: -9999px;
   text-align:center;
   width: 586px;
   height: 160px;
   background: transparent url('/images/logo.png') top center no-repeat;
+}
+
+#how-to {
+  margin-top: 30px;
+}
+
+#how-to h2 {
+  font-size: 2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#how-to ul {
 }
