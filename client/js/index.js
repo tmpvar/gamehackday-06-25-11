@@ -15,22 +15,22 @@
     var ship     = null;
 
     socket.on('connection', function(gameState) {
-      console.log(socket.socket.sessionid)
       /*
         Setup ships
       */
       // TODO: make this work for non-es5 browsers
+      console.log("before")
       gameState.players.forEach(function(player) {
+        console.log(player.id);
         if (!shipInstances[player.id]) {
           var socketInstance = socket.socket;
           var instance = new entities.Ship(socketInstance, player);
-          instance.id = socketInstance.sessionid;
-
           if (instance.id === player.id) {
             ship = instance;
           }
         }
       });
+      console.log('after');
 
       /*
         Keybinds
@@ -104,15 +104,12 @@
       var context = canvas.getContext('2d');
       var fps = 1000/30;
       setTimeout(function nextFrame() {
+        context.fillStyle = "black";
+        context.fillRect(0,0, canvas.width, canvas.height);
 
         var current = scene.players.length;
         while(current--) {
-          
-          context.fillStyle = "black";
-          context.fillRect(0,0, canvas.width, canvas.height);
-          
           scene.players[current].render(context)
-          
         };
 
         setTimeout(nextFrame, fps);

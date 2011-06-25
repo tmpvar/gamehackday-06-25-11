@@ -32,13 +32,11 @@ var calculateGameState = function() {
   };
 
   shared.scene.players.forEach(function(player) {
-    console.log(player.socket.id);
     var toSend = player._;
     toSend.id = player.socket.id;
     lastGameState.players.push(toSend);
   });
 
-  console.log(JSON.stringify(lastGameState, null, "  "));
   return lastGameState;
 }
 
