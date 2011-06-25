@@ -71,10 +71,6 @@
       var dx = (0.01 * amount) * Math.cos(this._.rotation);
       var dy = (0.01 * amount) * Math.sin(this._.rotation);
       
-      console.log(this._.rotation)
-      console.log(dx)
-      console.log(dy)
-      
       this._.velocity       = Math.sqrt(Math.pow(x + dx, 2) + Math.pow(y + dy, 2));
       this._.velocity_angle = Math.atan((y + dy) / (x + dx));
     }
