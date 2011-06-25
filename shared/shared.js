@@ -9,7 +9,7 @@
   exports.shipInstances = {};
   var entities = exports.entities = {
     Ship : function(socket, vals) {
-      
+
       this._ = {
         rotation_delta: 0,
         thrust_delta: 0,
@@ -74,22 +74,14 @@
         
       }
 
-      if (typeof Image !== 'undefined') {
-        var im = new Image();
-        im.src = 'assets/ship_default.png'
-        
-        var planet = new Image();
-        planet.src = 'assets/planet_1.png'
-      }
-
       this.render = function(ctx) {
-        ctx.drawImage(planet, 200, 100)
-        
         ctx.save()
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(that._.rotation + (Math.PI * 0.5));
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
-        ctx.drawImage(im, that._.x, that._.y)
+        if (this.image) {
+          ctx.drawImage(this.image, that._.x, that._.y)
+        }
         ctx.restore();
       };
     }
