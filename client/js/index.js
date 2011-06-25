@@ -17,31 +17,34 @@
   window.bootstrap = function() {
     var l      = window.location;
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
-    var firstRun = false;
 
     socket.on('connection', function(gameState) {
       processGameState(socket, gameState);
 
-      /*
-        Keybinds
-      */
-      var heldKeys = {};
-      document.addEventListener('keydown', function(ev) {
-        heldKeys[ev.keyCode] = true;
-      });
+      if (shipInstances[socket.socket.sessionid]) {
+        
+        var ship = shipInstances[socket.socket.sessionid];
+        /*
+          Keybinds
+        */
+        ship.heldKeys = {};
+        document.addEventListener('keydown', function(ev) {
+          ship.heldKeys[ev.keyCode] = true;
+        });
 
-      document.addEventListener('keyup', function(ev) {
-        if (heldKeys[ev.keyCode]) {
-          delete heldKeys[ev.keyCode];
-        }
-      });
+        document.addEventListener('keyup', function(ev) {
+          if (ship.heldKeys[ev.keyCode]) {
+            delete ship.heldKeys[ev.keyCode];
+          }
+        });
 
-      /*
-        Track key binds
-      */
-      setInterval(function() {
-        socket.emit('keys', heldKeys);
-      }, 33);
+        /*
+          Track key binds
+        */
+        setInterval(function() {
+          socket.emit('keys', ship.heldKeys);
+        }, 33);
+      }
 
       socket.on('tick', function(gameState) {
         processGameState(socket, gameState);
