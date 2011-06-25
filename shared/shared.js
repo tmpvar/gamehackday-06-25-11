@@ -33,8 +33,8 @@
         that._.x += Math.cos(that._.velocity_angle) * that._.velocity;
         that._.y += Math.sin(that._.velocity_angle) * that._.velocity;
 
-        if (that._.x > 900) that._.x = 0
-        if (that._.x < 0) that._.x = 900
+        if (that._.x > 600) that._.x = 0
+        if (that._.x < 0) that._.x = 600
         if (that._.y > 400) that._.y = 0
         if (that._.y < 0) that._.y = 400
         
