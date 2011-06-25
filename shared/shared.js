@@ -19,7 +19,7 @@
         that._.rotation += that._.rotation_delta;
 
         that._.x += Math.cos(that._.velocity_angle) * that._.velocity;
-        that._.y += Math.sin(that._.velocity_angle) + that._.velocity;
+        that._.y += Math.sin(that._.velocity_angle) * that._.velocity;
 
         if (that._.x > 900) that._.x = 0
         if (that._.x < 0) that._.x = 900
@@ -43,8 +43,6 @@
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(this._.rotation);
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
-        // ctx.fillStyle = "red";
-        // ctx.fillRect(that._.x, that._.y, 50, 50);
         ctx.drawImage(im, that._.x, that._.y)
         ctx.restore();
       };
@@ -56,8 +54,8 @@
       rotation_delta: 0,
       thrust_delta: 0,
       rotation: 0,
-      velocity_angle: 0,
-      velocity: 0.5,
+      velocity_angle: Math.PI,
+      velocity: 0,
       thrust: 0,
       fuel: 100,
       x: undefined,
@@ -70,11 +68,11 @@
       var x = this._.velocity * Math.cos(this._.velocity_angle);
       var y = this._.velocity * Math.sin(this._.velocity_angle);
 
-      var dx = (0.1 * amount) * Math.cos(this._.rotation);
-      var dy = (0.1 * amount) * Math.sin(this._.rotation);
-
-      this._.velocity_angle = Math.sqrt(Math.pow(x + dx, 2), Math.pow(y + dy, 2));
-      // this._.velocity       = Math.atan((y + dy) / (x + dx));
+      var dx = (0.01 * amount) * Math.cos(this._.rotation);
+      var dy = (0.01 * amount) * Math.sin(this._.rotation);
+      
+      this._.velocity       = Math.sqrt(Math.pow(x + dx, 2), Math.pow(y + dy, 2));
+      this._.velocity_angle = Math.atan((y + dy) / (x + dx));
     }
   };
 
