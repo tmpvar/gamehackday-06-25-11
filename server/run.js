@@ -1,13 +1,7 @@
 var socketio = require('socket.io');
-
-
-
-
-var connect = require("connect");
-var sys = require("sys");
-var util = require("util");
-
-var server = connect(
+var connect  = require("connect");
+var util     = require("util");
+var server   = connect(
   connect.logger(),
   connect.static(__dirname + '/../'),
   connect.static(__dirname + '/../client/')
@@ -16,9 +10,11 @@ var server = connect(
 var io = socketio.listen(server);
 server.listen(8080);
 
+var shared = require(__dirname + '/../shared/shared');
+console.log(shared);
+
 io.sockets.on('connection', function (socket) {
- socket.emit('news', { hello: 'world' });
- socket.on('my other event', function (data) {
+ socket.on('disconnect', function() {
    
  });
 });

@@ -1,5 +1,5 @@
-;(function() {
-  var entities = window.entities = {
+;(function(exports) {
+  var entities = exports.entities = {
     Ship : function(x, y) {
       var that = this;
       scene.players.push(this);
@@ -37,7 +37,7 @@
     }
   };
   
-  var scene = window.scene = {
+  var scene = exports.scene = {
     players : []
   };
-})();
+})(typeof window === 'undefined' ? exports : window);
