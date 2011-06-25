@@ -85,7 +85,7 @@
         */
         // TODO: make this work for non-es5 browsers
         gameState.players.forEach(function(player) {
-          if (!shipInstances[socket.id]) {
+          if (!shipInstances[player.id]) {
             var socketInstance = socket.socket;
             var instance = new entities.Ship(socketInstance, player);
             instance.id = socketInstance.sessionid;
