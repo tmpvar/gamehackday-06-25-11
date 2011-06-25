@@ -52,6 +52,12 @@
           ship.addVelocity(CONST.THRUST);
         }
 
+        // Brake
+        if (heldKeys['40']) {
+          // Thrust forward!
+          ship.addVelocity(- CONST.THRUST);
+        }
+
         // Left
         if (heldKeys['37']) {
           ship.rotate(CONST.ROTATION_DELTA)
