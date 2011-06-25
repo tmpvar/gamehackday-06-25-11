@@ -6,7 +6,8 @@
     gameState.players.forEach(function(player) {
       var socketInstance = socket.socket;
       if (!shipInstances[player.id]) {
-        new entities.Ship({ sessionid: player.id }, player);
+        var ship = new entities.Ship({ sessionid: player.id }, player);
+        ship.image = imageCache.ship.default;
       } else {
         shipInstances[player.id]._ = player;
       }
@@ -20,7 +21,7 @@
 
     socket.on('connection', function(gameState) {
       processGameState(socket, gameState);
-      
+
       /*
         Keybinds
       */
@@ -42,25 +43,25 @@
         socket.emit('keys', heldKeys);
       }, 33);
 
-
       socket.on('tick', function(gameState) {
         processGameState(socket, gameState);
       });
-      
+
       socket.on('player.disconnect', function(id) {
         scene.removePlayer(shipInstances[id]);
-      })
+      });
 
       /*
         Render loop
       */
       var canvas = document.getElementById('render-target');
       var context = canvas.getContext('2d');
+
       var fps = 1000/30;
       setTimeout(function nextFrame() {
         context.fillStyle = "black";
         context.fillRect(0,0, canvas.width, canvas.height);
-
+        context.drawImage(imageCache.planet.default, 200, 100)
         var current = scene.players.length;
         while(current--) {
           scene.players[current].render(context)
