@@ -1,10 +1,17 @@
 ;(function() {
   var entities = window.entities = {
-    ship : function() {
+    Ship : function(x, y) {
+
+      scene.players.push(this);
+
+      this.render = function(ctx) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(x, y, 100, 100);
+      }
     }
   };
   
-  entities.ship.prototype = {
+  entities.Ship.prototype = {
     _      : {
       rotation : 0,
       thrust   : 0,
@@ -18,7 +25,7 @@
     }
   };
   
-  var scene    = window.scene    = {
+  var scene = window.scene = {
     players : []
   };
-});
+})();

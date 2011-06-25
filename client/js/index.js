@@ -26,7 +26,7 @@
         Setup Local ship
       */
 
-      var ship = new entities.Ship();
+      var ship = new entities.Ship(10, 10);
 
       /*
         Keybinds
@@ -71,12 +71,24 @@
       /*
         Render loop
       */
+      var canvas = document.getElementById('render-target');
+      var context = canvas.getContext('2d');
       var fps = 1000/30;
       setTimeout(function nextFrame() {
 
+        var current = scene.players.length;
+        while(current--) {
+          
+          context.fillStyle = "black";
+          context.fillRect(0,0, canvas.width, canvas.height);
+          
+          scene.players[current].render(context)
+          
+        };
+
         setTimeout(nextFrame, fps);
       },fps)
-    };
+    }();
   };
 
   /*
