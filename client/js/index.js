@@ -13,7 +13,7 @@
 
   var CONST = {
     THRUST : 10, // units
-    ROTATION_DELTA : 0.1 // degrees
+    ROTATION_DELTA : 0.003 // degrees
   };
 
   window.bootstrap = function() {
@@ -54,12 +54,12 @@
 
         // Left
         if (heldKeys['37']) {
-          ship.rotate(-CONST.ROTATION_DELTA)
+          ship.rotate(CONST.ROTATION_DELTA)
         }
 
         // Right
         if (heldKeys['39']) {
-          ship.rotate(CONST.ROTATION_DELTA)
+          ship.rotate(-CONST.ROTATION_DELTA)
         }
 
         // Fire!
