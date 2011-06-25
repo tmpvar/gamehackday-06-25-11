@@ -1,11 +1,17 @@
-;
-(function() {
-  var entities = window.entities = {
-    Ship: function(x, y) {
-      var that = this;
+;(function(exports) {
+  exports.shipInstances = {};
+  var entities = exports.entities = {
+    Ship : function(socket, vals) {
+      
+      for (var key in vals) {
+        if (vals.hasOwnProperty(key)) {
+          this._[key] = vals[key];
+        }
+      }
 
-      that._.x = x;
-      that._.y = y;
+      this.socket = socket;
+      exports.shipInstances[socket.id] = this;
+      var that = this;
 
       scene.players.push(this);
 
@@ -19,17 +25,20 @@
         if (that._.x < 0) that._.x = 900
         if (that._.y > 400) that._.y = 0
         if (that._.y < 0) that._.y = 400
-
-        $("#vel").html(that._.rotation)
+        
+        if (typeof $ !== 'undefined') {
+          $("#vel").html(that._.rotation);
+        }
         that._.rotation_delta = that._.rotation_delta * 0.99;
       },
       16)
 
-      var im = new Image();
-      im.src = 'assets/ship_default.png'
+      if (typeof Image !== 'undefined') {
+        var im = new Image();
+        im.src = 'assets/ship_default.png'
+      }
 
       this.render = function(ctx) {
-
         ctx.save()
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(this._.rotation);
@@ -69,7 +78,17 @@
     }
   };
 
-  var scene = window.scene = {
-    players: []
+  var scene = exports.scene = {
+    removePlayer :  function(player) {
+      var current = scene.players.length;
+      while(current--) {
+        if (scene.players[current] === player) {
+          scene.players.splice(current, 1);
+          delete exports.shipInstances[player.socket.id];
+          break;
+        }
+      }
+    },
+    players : []
   };
-})();
+})(typeof window === 'undefined' ? exports : window);

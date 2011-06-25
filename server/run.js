@@ -11,10 +11,38 @@ var io = socketio.listen(server);
 server.listen(8080);
 
 var shared = require(__dirname + '/../shared/shared');
-console.log(shared);
+
+var lastGameState = {};
+
 
 io.sockets.on('connection', function (socket) {
+ var ship = new shared.entities.Ship(socket, {
+   x: Math.random()*100,
+   y: Math.random()*100,
+ });
+
+ socket.emit('connection', calculateGameState());
+
  socket.on('disconnect', function() {
-   
+   shared.scene.removePlayer(ship);
  });
 });
+
+var calculateGameState = function() {
+  lastGameState = {
+    players : []
+  };
+
+  shared.scene.players.forEach(function(player) {
+    var toSend = player._;
+    toSend.id = player.socket.id;
+    lastGameState.players.push(toSend);
+  });
+
+  return lastGameState;
+}
+
+
+setInterval(function() {
+  io.sockets.emit('tick', calculateGameState());
+}, 330)

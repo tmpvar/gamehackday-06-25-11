@@ -3,30 +3,34 @@
     Bootstrap the browser
   */
 
-  // var l      = window.location;
-  // var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
-  // socket.on('news', function (data) {
-  //   console.log(data);
-  //   socket.emit('my other event', { my: 'data' });
-  // });
-  // 
-
   var CONST = {
     THRUST : 10, // units
     ROTATION_DELTA : 0.003 // degrees
   };
 
   window.bootstrap = function() {
-    // TODO: wait for server to add an instance for this client.
-    // TODO: implement ship { setThrust }
-
-
-    var postConnect = function() {
+    var l      = window.location;
+    var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
+    var firstRun = false;
+    var ship     = null;
+    
+    socket.on('connection', function(gameState) {
+      
       /*
-        Setup Local ship
+        Setup ships
       */
-
-      var ship = new entities.Ship(50, 50);
+      // TODO: make this work for non-es5 browsers
+      gameState.players.forEach(function(player) {
+        if (!shipInstances[socket.id]) {
+          var instance = new entities.Ship({ id: player.id }, player);
+          scene.players.push(instance);
+          if (socket.socket.sessionid === player.id) {
+            console.log("bound!")
+            player.socket = socket.socket;
+            ship = instance;
+          }
+        }
+      });
 
       /*
         Keybinds
@@ -46,6 +50,8 @@
         Track key binds
       */
       setInterval(function() {
+        if (!ship) { return; }
+
         // Up
         if (heldKeys['38']) {
           // Thrust forward!
@@ -93,14 +99,16 @@
 
         setTimeout(nextFrame, fps);
       }, fps);
-    }();
+      
+    });
+
+    socket.on('tick', function(gameState) {
+
+    });
   };
 
   /*
     Spawn the current user, and send a message to the server
   */
-  
-
-  
 
 })(window);
