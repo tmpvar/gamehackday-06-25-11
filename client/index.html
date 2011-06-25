@@ -5,11 +5,13 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   </head>
   <body>
+
+    <canvas id="render-target"></canvas>
+
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="shared.js"></script>
     <script type="text/javascript">
-      window.onload = gameclient.bootstrap;
+      window.onload = bootstrap;
     </script>
-
   </body>
 </html>
