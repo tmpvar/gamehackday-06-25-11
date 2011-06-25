@@ -46,6 +46,10 @@
       socket.on('tick', function(gameState) {
         processGameState(socket, gameState);
       });
+      
+      socket.on('player.disconnect', function(id) {
+        scene.removePlayer(shipInstances[id]);
+      })
 
       /*
         Render loop

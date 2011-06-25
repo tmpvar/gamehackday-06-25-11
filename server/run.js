@@ -25,9 +25,10 @@ io.sockets.on('connection', function (socket) {
   ship.handleKeys(heldKeys);
  });
 
- socket.on('disconnect', function() {
+ socket.on('disconnect', function(client) {
+   io.sockets.emit('player.disconnect', socket.id);
    shared.scene.removePlayer(ship);
- });
+ }); 
 });
 
 var calculateGameState = function() {
