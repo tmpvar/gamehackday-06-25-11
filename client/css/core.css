@@ -61,6 +61,10 @@ body {
   margin: 50px auto;
 }
 
+#star-bg {
+  background: transparent url('/images/star_bg.png') 10% 0% repeat;
+}
+
 #render-target {
   border: 1px solid #333;
 }
