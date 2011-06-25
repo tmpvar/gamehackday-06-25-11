@@ -29,7 +29,7 @@
         if (typeof $ !== 'undefined') {
           $("#vel").html(that._.velocity);
         }
-        that._.rotation_delta = that._.rotation_delta * 0.99;
+        that._.rotation_delta = that._.rotation_delta * 0.95;
       },
       16)
 
@@ -72,6 +72,8 @@
       y += (0.01 * amount) * Math.sin(this._.rotation);
       
       this._.velocity       = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      if (this._.velocity > 2) this._.velocity = 2;
+      if (this._.velocity < 0) this._.velocity = 0;
       
       if (x > 0) {
         this._.velocity_angle = Math.atan(y / x);

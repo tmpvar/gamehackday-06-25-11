@@ -5,7 +5,7 @@
 
   var CONST = {
     THRUST : 10, // units
-    ROTATION_DELTA : 0.003 // degrees
+    ROTATION_DELTA : 0.006 // degrees
   };
 
   window.bootstrap = function() {
