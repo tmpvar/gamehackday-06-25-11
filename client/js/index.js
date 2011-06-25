@@ -13,20 +13,20 @@
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
     var firstRun = false;
     var ship     = null;
-    
+
     socket.on('connection', function(gameState) {
-      
+      console.log(socket.socket.sessionid)
       /*
         Setup ships
       */
       // TODO: make this work for non-es5 browsers
       gameState.players.forEach(function(player) {
-        if (!shipInstances[socket.id]) {
-          var instance = new entities.Ship({ id: player.id }, player);
-          scene.players.push(instance);
-          if (socket.socket.sessionid === player.id) {
-            console.log("bound!")
-            player.socket = socket.socket;
+        if (!shipInstances[player.id]) {
+          var socketInstance = socket.socket;
+          var instance = new entities.Ship(socketInstance, player);
+          instance.id = socketInstance.sessionid;
+
+          if (instance.id === player.id) {
             ship = instance;
           }
         }
@@ -78,6 +78,24 @@
           ship.fire();
         }
       }, 33);
+
+      socket.on('tick', function(gameState) {
+        /*
+          Setup ships
+        */
+        // TODO: make this work for non-es5 browsers
+        gameState.players.forEach(function(player) {
+          if (!shipInstances[socket.id]) {
+            var socketInstance = socket.socket;
+            var instance = new entities.Ship(socketInstance, player);
+            instance.id = socketInstance.sessionid;
+          }
+        });
+      });
+
+      setInterval(function() {
+        
+      }, 0)
 
       /*
         Render loop
