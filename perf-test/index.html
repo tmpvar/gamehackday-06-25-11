@@ -11,8 +11,36 @@
                 <script type="text/javascript">
 
                 var paper = new Raphael("target", 500,500)
-                paper.circle(50,50,50)
-
+                NUM_CIRCLES=1000
+                circles = []
+                
+                for(var i = 0; i < NUM_CIRCLES; i ++) {
+                        var x = Math.random() * 500
+                        var y = Math.random() * 500
+                        var dx = Math.random() * 10 - 5;
+                        var dy = Math.random() * 10 - 5;
+                        circles.push({
+                                el: paper.circle(x,y,10),
+                                dx: dx,
+                                dy: dy
+                        });
+                }
+                
+                setInterval(function() {
+                        console.log('test')
+                        for(var i = 0; i < NUM_CIRCLES; i ++) {
+                               circles[i].el.attr({
+                                       cx: circles[i].el.attr('cx') + circles[i].dx,
+                                       cy: circles[i].el.attr('cy') + circles[i].dy,
+                               }) 
+                               
+                               if (circles[i].el.attr('cx') < 0) circles[i].dx = -circles[i].dx;
+                               if (circles[i].el.attr('cx') > 500) circles[i].dx = -circles[i].dx;
+                               if (circles[i].el.attr('cy') < 0) circles[i].dy = -circles[i].dy;
+                               if (circles[i].el.attr('cy') > 500) circles[i].dy = -circles[i].dy;
+                        }
+                },33)
+                
                 </script>
 
         </body>
