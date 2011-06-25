@@ -27,7 +27,7 @@
       }
 
       this.socket = socket;
-      exports.shipInstances[socket.id] = this;
+      exports.shipInstances[socket.sessionid] = this;
       var that = this;
 
       scene.players.push(this);

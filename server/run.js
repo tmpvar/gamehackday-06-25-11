@@ -47,4 +47,4 @@ var calculateGameState = function() {
 
 setInterval(function() {
   io.sockets.emit('tick', calculateGameState());
-}, 1000)
+}, 30)
