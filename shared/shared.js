@@ -3,6 +3,18 @@
   var entities = exports.entities = {
     Ship : function(socket, vals) {
       
+      this._ = {
+        rotation_delta: 0,
+        thrust_delta: 0,
+        rotation: 0,
+        velocity_angle: 0,
+        velocity: 0,
+        thrust: 0,
+        fuel: 100,
+        x: undefined,
+        y: undefined
+      };
+
       for (var key in vals) {
         if (vals.hasOwnProperty(key)) {
           this._[key] = vals[key];
@@ -50,17 +62,6 @@
   };
 
   entities.Ship.prototype = {
-    _: {
-      rotation_delta: 0,
-      thrust_delta: 0,
-      rotation: 0,
-      velocity_angle: 0,
-      velocity: 0,
-      thrust: 0,
-      fuel: 100,
-      x: undefined,
-      y: undefined
-    },
     rotate: function(degrees) {
       this._.rotation_delta -= degrees;
     },
