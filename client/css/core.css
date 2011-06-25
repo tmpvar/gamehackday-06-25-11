@@ -46,7 +46,7 @@ table {
 
 /* Core ---------------------------------------------------------*/
 html {
-  background: #1a1a1a url('/images/html_bg.png') top center no-repeat;
+  background: #1a1a1a url('/images/html_bg.png') top center repeat;
 }
 
 body {
