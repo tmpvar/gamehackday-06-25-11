@@ -8,7 +8,7 @@
       if (!shipInstances[player.id]) {
         new entities.Ship({ sessionid: player.id }, player);
       } else {
-        shipInstances[socketInstance.sessionid]._ = JSON.parse(JSON.stringify(player));
+        shipInstances[player.id]._ = JSON.parse(JSON.stringify(player));
       }
     });
   };

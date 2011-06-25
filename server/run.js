@@ -46,5 +46,6 @@ var calculateGameState = function() {
 
 
 setInterval(function() {
+  shared.scene.players.forEach(function(player) { player.tick() });
   io.sockets.emit('tick', calculateGameState());
-}, 30)
+}, 33)

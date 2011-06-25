@@ -32,7 +32,7 @@
 
       scene.players.push(this);
 
-      setInterval(function() {
+      this.tick = function() {
         that._.rotation += that._.rotation_delta;
 
         that._.x += Math.cos(that._.velocity_angle) * that._.velocity;
@@ -47,8 +47,7 @@
           $("#vel").html(that._.velocity);
         }
         that._.rotation_delta = that._.rotation_delta * 0.95;
-      },
-      16)
+      }
 
       if (typeof Image !== 'undefined') {
         var im = new Image();
