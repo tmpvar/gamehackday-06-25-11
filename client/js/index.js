@@ -3,11 +3,6 @@
     Bootstrap the browser
   */
 
-  var CONST = {
-    THRUST : 10, // units
-    ROTATION_DELTA : 0.006 // degrees
-  };
-
   window.bootstrap = function() {
     var l      = window.location;
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
@@ -48,32 +43,8 @@
       */
       setInterval(function() {
         if (!ship) { return; }
-
-        // Up
-        if (heldKeys['38']) {
-          // Thrust forward!
-          ship.addVelocity(CONST.THRUST);
-        }
-        // Brake
-        if (heldKeys['40']) {
-          // Thrust forward!
-          ship.addVelocity(0 - CONST.THRUST);
-        }
-
-        // Left
-        if (heldKeys['37']) {
-          ship.rotate(CONST.ROTATION_DELTA)
-        }
-
-        // Right
-        if (heldKeys['39']) {
-          ship.rotate(-CONST.ROTATION_DELTA)
-        }
-
-        // Fire!
-        if (heldKeys['32']) {
-          ship.fire();
-        }
+        
+        ship.socket.emit('keys', heldKeys);
       }, 33);
 
       socket.on('tick', function(gameState) {
