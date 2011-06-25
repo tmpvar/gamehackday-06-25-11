@@ -10,7 +10,8 @@
     "node": "~v0.4.9-pre"
   },
   "dependencies": {
-    "socket.io" : "0.7.0"
+    "socket.io" : "0.7.0",
+    "connect"   : "*"
   },
   "devDependencies": {}
 }
