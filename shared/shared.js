@@ -11,7 +11,7 @@
 
       this.render = function(ctx) {
         ctx.save()
-          ctx.translate(x+50, y+50);
+          ctx.translate(x, y);
           ctx.rotate(this._.rotation);
           ctx.translate(x-50, y-50);
           ctx.fillStyle = "red";

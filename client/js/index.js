@@ -26,7 +26,7 @@
         Setup Local ship
       */
 
-      var ship = new entities.Ship(10, 10);
+      var ship = new entities.Ship(50, 50);
 
       /*
         Keybinds
