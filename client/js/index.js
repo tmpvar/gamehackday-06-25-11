@@ -19,18 +19,15 @@
         Setup ships
       */
       // TODO: make this work for non-es5 browsers
-      console.log("before")
       gameState.players.forEach(function(player) {
-        console.log(player.id);
         if (!shipInstances[player.id]) {
           var socketInstance = socket.socket;
           var instance = new entities.Ship(socketInstance, player);
-          if (instance.id === player.id) {
+          if (socketInstance.sessionid === player.id) {
             ship = instance;
           }
         }
       });
-      console.log('after');
 
       /*
         Keybinds
@@ -89,6 +86,10 @@
             var socketInstance = socket.socket;
             var instance = new entities.Ship(socketInstance, player);
             instance.id = socketInstance.sessionid;
+          } else {
+            
+            
+            
           }
         });
       });
