@@ -10,11 +10,16 @@ var io = socketio.listen(server);
 io.set('log level', 0);
 server.listen(8080);
 
-var shared = require(__dirname + '/../shared/shared');
+var Ship = require(__dirname + '/../shared/ship').Ship;
+var Planet = require(__dirname + '/../shared/planet').Planet;
+var Projectile = require(__dirname + '/../shared/ship').Projectile;
+var Scene = require(__dirname + '/../shared/scene').Scene;
+var scene = new Scene();
+
 var lastGameState = {};
 
 io.sockets.on('connection', function (socket) {
- var ship = new shared.entities.Ship(socket, {
+ var ship = new Ship(socket, {
    x: Math.random()*100,
    y: Math.random()*100,
  });
@@ -36,7 +41,7 @@ var calculateGameState = function() {
     players : []
   };
 
-  shared.scene.players.forEach(function(player) {
+  scene.players.forEach(function(player) {
     var toSend = player._;
     toSend.id = player.socket.id;
     lastGameState.players.push(toSend);
@@ -47,6 +52,6 @@ var calculateGameState = function() {
 
 
 setInterval(function() {
-  shared.scene.players.forEach(function(player) { player.tick() });
+  scene.players.forEach(function(player) { player.tick() });
   io.sockets.emit('tick', calculateGameState());
 }, 33)
