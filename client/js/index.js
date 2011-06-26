@@ -2,6 +2,14 @@
   /*
     Bootstrap the browser
   */
+  
+  valid_keys = {
+    32 : true,
+    37 : true,
+    38 : true,
+    39 : true,
+    40 : true
+  }
 
   window.bootstrap = function() {
     var l      = window.location;
@@ -21,12 +29,14 @@
         ship.heldKeys = {};
         document.addEventListener('keydown', function(ev) {
           ship.heldKeys[ev.keyCode] = true;
+          if (valid_keys[ev.keyCode]) ev.preventDefault();
         });
 
         document.addEventListener('keyup', function(ev) {
           if (ship.heldKeys[ev.keyCode]) {
             delete ship.heldKeys[ev.keyCode];
           }
+          if (valid_keys[ev.keyCode]) ev.preventDefault();
         });
 
         /*

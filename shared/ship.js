@@ -132,7 +132,7 @@
       var x = this._.velocity * Math.cos(this._.velocity_angle);
       var y = this._.velocity * Math.sin(this._.velocity_angle);
 
-      var planet_angle = calc_angle(this._.x - 275, this._.y - 175) - Math.PI
+      var planet_angle = calc_angle(this._.x - 375, this._.y - 275) - Math.PI
       var planet_distance = this.planet_distance();
 
       x += Math.cos(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
@@ -204,7 +204,7 @@
     },
 
     planet_distance: function() {
-      return Math.sqrt(Math.pow(this._.x - 275, 2) + Math.pow(this._.y - 175, 2));
+      return Math.sqrt(Math.pow(this._.x - 375, 2) + Math.pow(this._.y - 275, 2));
     },
 
     rotate: function(degrees) {

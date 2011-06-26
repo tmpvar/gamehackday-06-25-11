@@ -11,10 +11,10 @@
       context.restore();
       context.save();
       
-      context.translate(300, 200);
+      context.translate(400, 300);
       context.scale(window.scale, window.scale);
-      context.translate(-300, -200);
-      context.drawImage(imageCache.planet.default, 200, 100)
+      context.translate(-400, -300);
+      context.drawImage(imageCache.planet.default, 300, 200)
       context.restore()
     }
   }

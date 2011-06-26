@@ -57,7 +57,7 @@ body {
 }
 
 #wrapper {
-  width:600px;
+  width:800px;
   padding-top: 60px;
   margin: 0 auto;
 }
@@ -75,7 +75,7 @@ body {
   font-size: 0;
   text-indent: -9999px;
   text-align:center;
-  width: 586px;
+  width: 786px;
   height: 160px;
   background: transparent url('/images/logo.png') top center no-repeat;
 }
