@@ -7,7 +7,7 @@ var server   = connect(
 );
 
 var io = socketio.listen(server);
-//io.set('log level', 0);
+io.set('log level', 0);
 server.listen(8080);
 
 var Ship = require(__dirname + '/../shared/ship').Ship;
