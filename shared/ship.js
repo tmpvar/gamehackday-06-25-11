@@ -45,12 +45,7 @@
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
       
       if (this._.landed) {
-        // this.animation.landing += timeDiff;
-        //         ctx.save();
-        //         var imageIndex = Math.floor(this.animation.landing / 500);
-        //         if (imageIndex >= 4) imageIndex = 4;
         ctx.drawImage(imageCache.ship.default.landing[4], this._.x, this._.y);
-        //         ctx.restore()
       } else if (this._.crashed) {
         this.animation.landing += timeDiff;
         ctx.save()
