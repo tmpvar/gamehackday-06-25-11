@@ -23,11 +23,15 @@
     if (initial_state) this.update(initial_state);
 
     this.heldKeys = {};
-    this._.animation = {
+    this.animation = {
       trails: {
         big: 0
       },
       landing: 0,
+      crashing: []
+    }
+    
+    this._.animation = {
       crashing: []
     }
 
@@ -41,18 +45,18 @@
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
       
       if (this._.landed) {
-        this._.animation.landing += timeDiff;
-        ctx.save()
-        var imageIndex = Math.floor(this._.animation.landing / 500);
+        this.animation.landing += timeDiff;
+        ctx.save();
+        var imageIndex = Math.floor(this.animation.landing / 500);
         if (imageIndex >= 4) imageIndex = 4;
         ctx.drawImage(imageCache.ship.default.landing[imageIndex % 5], this._.x, this._.y);
         ctx.restore()
       } else if (this._.crashed) {
-        this._.animation.landing += timeDiff;
+        this.animation.landing += timeDiff;
         ctx.save()
-        var imageIndex = Math.floor(this._.animation.landing / 1000);
+        var imageIndex = Math.floor(this.animation.landing / 1000);
         if (imageIndex >= 2) imageIndex = 2;
-        ctx.drawImage(imageCache.ship.default.crunching[imageIndex % 2], this._.x, this._.y);
+        ctx.drawImage(imageCache.ship.default.crunching[imageIndex % 1], this._.x, this._.y);
         ctx.restore()
         
         for (var i = 0; i < 13; i ++) {
@@ -64,24 +68,24 @@
       }
 
       if (this.heldKeys['38']) {
-        this._.animation.trails.big += timeDiff;
+        this.animation.trails.big += timeDiff;
 
         ctx.save();
         ctx.translate(this._.x + 22, this._.y + 50);
-        var imageIndex = (this._.animation.trails.big % 50) % 4;
+        var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.large[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.large[imageIndex], -7, 2);
         }
         ctx.restore();
       } else {
-        this._.animation.trails.big = 0;
+        this.animation.trails.big = 0;
       }
 
       if (this.heldKeys['37']) {
         ctx.save();
         ctx.translate(this._.x + 34, this._.y + 35);
-        var imageIndex = (this._.animation.trails.big % 50) % 4;
+        var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.small[imageIndex], -6, 2);
@@ -92,7 +96,7 @@
       if (this.heldKeys['39']) {
         ctx.save();
         ctx.translate(this._.x + 10, this._.y + 35);
-        var imageIndex = (this._.animation.trails.big % 50) % 4;
+        var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.small[imageIndex], -5, 2);
