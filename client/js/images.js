@@ -30,6 +30,26 @@
             preload('assets/ship_landing_4.png'),
             preload('assets/ship_landing_5.png'),
         ],
+        crunching : [
+          preload('assets/ship_crunch_1.png'),
+          preload('assets/ship_crunch_2.png')
+        ],
+        crashing : [
+            preload('assets/ship_part_1.png'),
+            preload('assets/ship_part_2.png'),
+            preload('assets/ship_part_3.png'),
+            preload('assets/ship_part_4.png'),
+            preload('assets/ship_part_5.png'),
+            preload('assets/ship_part_6.png'),
+            preload('assets/ship_part_7.png'),
+            preload('assets/ship_part_8.png'),
+            preload('assets/ship_part_9.png'),
+            preload('assets/ship_part_10.png'),
+            preload('assets/ship_part_11.png'),
+            preload('assets/ship_part_12.png'),
+            preload('assets/ship_part_13.png'),
+            preload('assets/ship_part_14.png')
+        ],
         trails : {
           large : [
             preload('assets/large_trail_1.png'),

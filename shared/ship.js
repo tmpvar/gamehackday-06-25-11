@@ -20,11 +20,12 @@
     if (initial_state) this.update(initial_state);
 
     this.heldKeys = {};
-    this.animation = {
+    this._.animation = {
       trails: {
         big: 0
       },
-      landing: 0
+      landing: 0,
+      crashing: []
     }
 
     this.render = function(ctx, timeDiff) {
@@ -37,37 +38,47 @@
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
       
       if (this._.landed) {
-        this.animation.landing += timeDiff;
+        this._.animation.landing += timeDiff;
         ctx.save()
-        var imageIndex = Math.floor(this.animation.landing / 500);
+        var imageIndex = Math.floor(this._.animation.landing / 500);
         if (imageIndex >= 4) imageIndex = 4;
         ctx.drawImage(imageCache.ship.default.landing[imageIndex % 5], this._.x, this._.y);
         ctx.restore()
       } else if (this._.crashed) {
-        console.log(this._.crashed);
+        this._.animation.landing += timeDiff;
+        ctx.save()
+        var imageIndex = Math.floor(this._.animation.landing / 1000);
+        if (imageIndex >= 2) imageIndex = 2;
+        ctx.drawImage(imageCache.ship.default.crunching[imageIndex % 2], this._.x, this._.y);
+        ctx.restore()
+        
+        for (var i = 0; i < 13; i ++) {
+          var part = this._.animation.crashing[i];
+          ctx.drawImage(imageCache.ship.default.crashing[i], this._.animation.crashing[i].x, this._.animation.crashing[i].y);
+        };
       } else if (this.image) {
         ctx.drawImage(this.image, this._.x, this._.y)
       }
 
       if (this.heldKeys['38']) {
-        this.animation.trails.big += timeDiff;
+        this._.animation.trails.big += timeDiff;
 
         ctx.save();
         ctx.translate(this._.x + 22, this._.y + 50);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
+        var imageIndex = (this._.animation.trails.big % 50) % 4;
         if (this.trails.large[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.large[imageIndex], -7, 2);
         }
         ctx.restore();
       } else {
-        this.animation.trails.big = 0;
+        this._.animation.trails.big = 0;
       }
 
       if (this.heldKeys['37']) {
         ctx.save();
         ctx.translate(this._.x + 34, this._.y + 35);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
+        var imageIndex = (this._.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.small[imageIndex], -6, 2);
@@ -78,7 +89,7 @@
       if (this.heldKeys['39']) {
         ctx.save();
         ctx.translate(this._.x + 10, this._.y + 35);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
+        var imageIndex = (this._.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
           ctx.drawImage(this.trails.small[imageIndex], -5, 2);
@@ -124,11 +135,21 @@
           this._.landed = true;
           this._.rotation = planet_angle;
         } else { // crash
-          this._.crashed = {
-            velocity: this._.velocity,
-            planet_angle: planet_angle,
-            angle: this._.rotation
-          };
+          this._.crashed = true;
+          for (var i = 0; i < 13; i ++) {
+            var part = this._.animation.crashing[i];
+            if (!part) {
+              this._.animation.crashing.push({
+                x: this._.x,
+                y: this._.y,
+                velocity: this._.velocity,
+                velocity_angle: this._.velocity_angle + (Math.random() - 1.5) - (Math.PI / 2)
+              })
+            } else {
+              part.x += Math.cos(part.velocity_angle) * part.velocity
+              part.y += Math.sin(part.velocity_angle) * part.velocity
+            }
+          }; 
         }
 
       } else { // flying
