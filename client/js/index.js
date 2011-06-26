@@ -80,9 +80,12 @@
         // Allow us to pass the amount of time that has passed into render methods
         var currentTime = Date.now();
         var timeDiff    = currentTime-lastTime;
+        
+        context.drawImage(imageCache.background.default, 0 , 0)
 
-        context.fillStyle = "black";
-        context.fillRect(0,0, canvas.width, canvas.height);
+        context.restore();
+        context.save();
+        
         context.translate(300, 200);
         context.scale(window.scale, window.scale);
         context.translate(-300, -200);
