@@ -73,8 +73,13 @@
       var context = canvas.getContext('2d');
 
       var fps = 1000/30;
+      var lastTime = Date.now();
       setTimeout(function nextFrame() {
         context.save()
+        // Allow us to pass the amount of time that has passed into render methods
+        var currentTime = Date.now();
+        var timeDiff    = currentTime-lastTime;
+
         context.fillStyle = "black";
         context.fillRect(0,0, canvas.width, canvas.height);
         context.translate(300, 200);
@@ -84,9 +89,10 @@
         context.restore()
         var current = scene.players.length;
         while(current--) {
-          scene.players[current].render(context)
+          scene.players[current].render(context, timeDiff);
         };
 
+        lastTime = currentTime;
         setTimeout(nextFrame, fps);
       }, fps);
     });

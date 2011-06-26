@@ -93,13 +93,41 @@
         }
 
         if (this.heldKeys['38']) {
-          ctx.translate(that._.x + 15, that._.y + 50);
+          ctx.save();
+          ctx.translate(that._.x + 22 , that._.y + 50);
           ctx.fillStyle = "red";
-          ctx.fillRect(0,0,20,20);
+          ctx.fillRect(0,0,5,30);
+          ctx.restore();
         }
+        
+        if (this.heldKeys['37']) {
+          ctx.save();
+          ctx.translate(that._.x + 34, that._.y + 35);
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,5,20);
+          ctx.restore();
+        }
+
+        if (this.heldKeys['39']) {
+          ctx.save();
+          ctx.translate(that._.x + 10, that._.y + 35);
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,5,20);
+          ctx.restore();
+        }
+
         
         ctx.restore();
       };
+    },
+    Planet : function() {
+      this.tick = function() {
+        
+      };
+      
+      this.render = function(context, timeSinceLast) {
+        
+      }
     }
   };
 
@@ -149,7 +177,11 @@
       this._.velocity_angle = calc_angle(x, y)
     }
   };
-  
+
+  entities.Planet.prototype = {
+    
+  };
+
   /**
    * Computes theta from the x-axis to a line between the origin and x,y
    */
