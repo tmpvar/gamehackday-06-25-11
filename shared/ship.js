@@ -37,9 +37,9 @@
 
     this.render = function(ctx, timeDiff) {
       ctx.save()
-      ctx.translate(300, 200)
+      ctx.translate(400, 300)
       ctx.scale(window.scale, window.scale)
-      ctx.translate(-300, -200)
+      ctx.translate(-400, -300)
       ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
       ctx.rotate(this._.rotation + (Math.PI * 0.5));
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
@@ -247,7 +247,10 @@
       }
     },
     fire  : function() {
-      var projectile = new Projectile(JSON.parse(JSON.stringify(this._)));
+      var data = JSON.parse(JSON.stringify(this._))
+      data.x += 25;
+      data.y += 25;
+      var projectile = new Projectile(data);
       this.projectiles.push(projectile);
     },
     addVelocity: function(amount) {
