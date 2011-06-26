@@ -3,7 +3,7 @@
     THRUST : 10, // units
     ROTATION_DELTA : 0.006, // degrees
     MAX_SPEED: 3,
-    GRAVITY: 500
+    GRAVITY: 750
     
   };
   

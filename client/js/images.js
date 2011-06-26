@@ -24,7 +24,7 @@
       'default' : preload('assets/ship_default.png')
     },
     background : {
-      'default' : 'assets/ship_default.png'
+      'default' : preload('assets/main_bg.png')
     }
   }
 })();
