@@ -7,18 +7,25 @@
 
   exports.Projectile = function(data) {
     this._ = {};
+    
+    var x = 10 * Math.cos(this._.rotation);
+    var y = 10 * Math.sin(this._.rotation);
+    
+    //data.x += 40;
+    //data.y += 9;
+
     this.update(data);
   };
 
   exports.Projectile.prototype = {
     tick :  function() {
-      var x = this._.velocity * Math.cos(this._.velocity_angle);
-      var y = this._.velocity * Math.sin(this._.velocity_angle);
+
+      var x = 10 * Math.cos(this._.rotation);
+      var y = 10 * Math.sin(this._.rotation);
 
       this._.x += x;
       this._.y += y;
 
-      this._.rotation_delta = this._.rotation_delta * 0.95;
     },
     update : function(vals) {
       for (var key in vals) {
@@ -28,10 +35,13 @@
       }
     },
     render  : function(ctx, timeDiff) {
-      console.log('render time!')
       ctx.save();
-      ctx.fillStyle = "red";
-      ctx.fillRect(0, 0, 10, 10);
+      ctx.translate(300, 200)
+      ctx.scale(window.scale, window.scale)
+      ctx.translate(-300, -200)
+      ctx.translate(this._.x, this._.y); //that._.x, that._.y);
+      ctx.rotate(this._.rotation + (Math.PI * 0.5));      
+      ctx.drawImage(imageCache.bullet, 0, 0);
       ctx.restore();
     },
     serialize : function() {
