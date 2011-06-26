@@ -104,6 +104,11 @@
         ctx.restore();
       }
       ctx.restore();
+      
+      this.projectiles.forEach(function(projectile) {
+        projectile.render(ctx, timeDiff);
+      });
+      
     };
   }
 
@@ -112,8 +117,15 @@
       return this._.id;
     },
     update: function(vals) {
+      var that = this;
       for (var key in vals) {
-        if (vals.hasOwnProperty(key)) {
+        if (key === 'projectiles') {
+          this.projectiles = [];
+          vals[key].forEach(function(projectileData) {
+            var projectile = new Projectile(projectileData);
+            that.projectiles.push(projectile);
+          });
+        } else if (vals.hasOwnProperty(key)) {
           this._[key] = vals[key];
         }
       }
@@ -231,7 +243,8 @@
       }
     },
     fire  : function() {
-      var projectile = new Projectile(JSON.parse(JSON.stringify(this._)));
+      console.log('fire')
+      var projectile = new Projectile(this._);
       this.projectiles.push(projectile);
     },
     addVelocity: function(amount) {

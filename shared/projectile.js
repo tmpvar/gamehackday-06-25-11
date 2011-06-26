@@ -21,16 +21,14 @@
       this._.rotation_delta = this._.rotation_delta * 0.95;
     },
     update : function(vals) {
-      console.log("MERG")
       for (var key in vals) {
         if (vals.hasOwnProperty(key)) {
-          console.log(vals[key]);
           this._[key] = vals[key];
         }
       }
-      console.log('done');
     },
     render  : function(ctx, timeDiff) {
+      console.log('render time!')
       ctx.save();
       ctx.fillStyle = "red";
       ctx.fillRect(0, 0, 10, 10);
