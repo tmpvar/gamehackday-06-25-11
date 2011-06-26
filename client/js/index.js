@@ -17,33 +17,48 @@
   window.bootstrap = function() {
     var l      = window.location;
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
-    var firstRun = false;
-
+    var scale = 1;
     socket.on('connection', function(gameState) {
       processGameState(socket, gameState);
 
-      /*
-        Keybinds
-      */
-      var heldKeys = {};
-      document.addEventListener('keydown', function(ev) {
-        heldKeys[ev.keyCode] = true;
-      });
+      if (shipInstances[socket.socket.sessionid]) {
+        
+        var ship = shipInstances[socket.socket.sessionid];
+        /*
+          Keybinds
+        */
+        ship.heldKeys = {};
+        document.addEventListener('keydown', function(ev) {
+          ship.heldKeys[ev.keyCode] = true;
+        });
 
-      document.addEventListener('keyup', function(ev) {
-        if (heldKeys[ev.keyCode]) {
-          delete heldKeys[ev.keyCode];
-        }
-      });
+        document.addEventListener('keyup', function(ev) {
+          if (ship.heldKeys[ev.keyCode]) {
+            delete ship.heldKeys[ev.keyCode];
+          }
+        });
 
-      /*
-        Track key binds
-      */
-      setInterval(function() {
-        socket.emit('keys', heldKeys);
-      }, 33);
+        /*
+          Track key binds
+        */
+        setInterval(function() {
+          socket.emit('keys', ship.heldKeys);
+        }, 33);
+      }
 
       socket.on('tick', function(gameState) {
+        
+        player = shipInstances[socket.socket.sessionid]
+        scale = player.planet_distance();
+        $("#vel").html(scale)
+        
+        if (scale > 150) {
+          window.scale = 150 / scale;
+          
+        } else {
+          window.scale = 1
+        }
+        
         processGameState(socket, gameState);
       });
 
@@ -58,15 +73,26 @@
       var context = canvas.getContext('2d');
 
       var fps = 1000/30;
+      var lastTime = Date.now();
       setTimeout(function nextFrame() {
+        context.save()
+        // Allow us to pass the amount of time that has passed into render methods
+        var currentTime = Date.now();
+        var timeDiff    = currentTime-lastTime;
+
         context.fillStyle = "black";
         context.fillRect(0,0, canvas.width, canvas.height);
+        context.translate(300, 200);
+        context.scale(window.scale, window.scale);
+        context.translate(-300, -200);
         context.drawImage(imageCache.planet.default, 200, 100)
+        context.restore()
         var current = scene.players.length;
         while(current--) {
-          scene.players[current].render(context)
+          scene.players[current].render(context, timeDiff);
         };
 
+        lastTime = currentTime;
         setTimeout(nextFrame, fps);
       }, fps);
     });
