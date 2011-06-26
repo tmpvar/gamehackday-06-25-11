@@ -123,8 +123,6 @@
       var planet_angle = calc_angle(this._.x - 275, this._.y - 175) - Math.PI
       var planet_distance = this.planet_distance();
 
-      //if (planet_distance < 100) planet_distance = 100;
-
       x += Math.cos(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
       y += Math.sin(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
 
@@ -146,7 +144,7 @@
                 x: this._.x,
                 y: this._.y,
                 velocity: this._.velocity,
-                velocity_angle: this._.velocity_angle + (Math.random() - 1.5) - (Math.PI / 2)
+                velocity_angle: this._.velocity_angle + ((Math.random() - 0.5) * 2) - (Math.PI / 2)
               })
             } else {
               part.x += Math.cos(part.velocity_angle) * part.velocity
