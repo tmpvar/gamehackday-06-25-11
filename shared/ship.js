@@ -130,7 +130,8 @@
         if (key === 'projectiles') {
           this.projectiles = [];
           vals[key].forEach(function(projectileData) {
-            var projectile = new Projectile(projectileData);
+            // TODO: wtf is going on?
+            var projectile = new window.Projectile(projectileData);
             that.projectiles.push(projectile);
           });
         } else if (vals.hasOwnProperty(key)) {
