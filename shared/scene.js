@@ -30,7 +30,7 @@
 
       Object.keys(this.players).forEach(function(key) {
         var player = that.players[key];
-        var toSend = player._;
+        var toSend = player.serialize();
         lastGameState.players.push(toSend);
       });
 
@@ -44,7 +44,6 @@
           ship.image = imageCache.ship.default.body;
           ship.trails = imageCache.ship.default.trails;
           that.addPlayer(ship);
-          console.log('added', that.players);
         } else {
           that.players[player.id].update(player);
         }

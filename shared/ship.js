@@ -2,6 +2,7 @@
   if (typeof require !== 'undefined') {
     var calc_angle = require('./trig').calc_angle;
     var CONST      = require('./trig').CONST;
+    var Projectile = require('./projectile').Projectile;
   }
 
   exports.Ship = function(initial_state) {
@@ -16,6 +17,8 @@
       x: undefined,
       y: undefined
     };
+    
+    this.projectiles = [];
 
     if (initial_state) this.update(initial_state);
 
@@ -122,6 +125,19 @@
 
       this._.rotation_delta = this._.rotation_delta * 0.95;
 
+      // update projectiles
+      this.projectiles.forEach(function(projectile) {
+        projectile.tick();
+      });
+    },
+
+    serialize : function() {
+      var ret = this._;
+      ret.projectiles = [];
+      this.projectiles.forEach(function(projectile) {
+        ret.projectiles.push(projectile.serialize());
+      });
+      return ret;
     },
 
     planet_distance: function() {
@@ -160,7 +176,8 @@
       }
     },
     fire  : function() {
-      
+      var projectile = new Projectile(this._);
+      this.projectiles.push(projectile);
     },
     addVelocity: function(amount) {
       var x = this._.velocity * Math.cos(this._.velocity_angle);
