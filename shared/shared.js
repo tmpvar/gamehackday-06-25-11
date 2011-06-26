@@ -74,6 +74,7 @@
         
       }
 
+      this.heldKeys = {};
       this.render = function(ctx) {
         ctx.save()
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
@@ -82,6 +83,13 @@
         if (this.image) {
           ctx.drawImage(this.image, that._.x, that._.y)
         }
+
+        if (this.heldKeys['38']) {
+          ctx.translate(that._.x + 15, that._.y + 50);
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,20,20);
+        }
+        
         ctx.restore();
       };
     }
