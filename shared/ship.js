@@ -247,8 +247,7 @@
       }
     },
     fire  : function() {
-      console.log('fire')
-      var projectile = new Projectile(this._);
+      var projectile = new Projectile(JSON.parse(JSON.stringify(this._)));
       this.projectiles.push(projectile);
     },
     addVelocity: function(amount) {

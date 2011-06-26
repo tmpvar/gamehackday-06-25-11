@@ -66,6 +66,7 @@
         }
       }
     },
+    bullet : preload('assets/bullet.png'),
     background : {
       'default' : preload('assets/main_bg.png')
     }
