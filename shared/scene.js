@@ -30,7 +30,7 @@
 
       Object.keys(this.players).forEach(function(key) {
         var player = that.players[key];
-        var toSend = player._;
+        var toSend = player.serialize();
         lastGameState.players.push(toSend);
       });
 

@@ -12,10 +12,10 @@ server.listen(8080);
 
 var Ship = require(__dirname + '/../shared/ship').Ship;
 var Planet = require(__dirname + '/../shared/planet').Planet;
-var Projectile = require(__dirname + '/../shared/ship').Projectile;
+var Projectile = require(__dirname + '/../shared/projectile').Projectile;
 var Scene = require(__dirname + '/../shared/scene').Scene;
 var scene = new Scene();
-
+console.log(Projectile)
 var lastGameState = {};
 
 io.sockets.on('connection', function (socket) {
@@ -36,13 +36,15 @@ io.sockets.on('connection', function (socket) {
  socket.on('disconnect', function(client) {
    io.sockets.emit('player.disconnect', socket.id);
    scene.removePlayerById(socket.id);
- }); 
+ });
 });
-
-
-
 
 setInterval(function() {
   scene.tick();
-  io.sockets.emit('tick', scene.serialize());
+  try {
+    io.sockets.emit('tick', scene.serialize());
+  } catch (e) {
+    console.log(scene.serialize());
+    process.exit();
+  }
 }, 33)
