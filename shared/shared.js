@@ -80,7 +80,12 @@
       }
 
       this.heldKeys = {};
-      this.render = function(ctx) {
+      this.animation = {
+        trails : {
+          big : 0
+        }
+      }
+      this.render = function(ctx, timeDiff) {
         ctx.save()
         ctx.translate(300, 200)
         ctx.scale(window.scale, window.scale)
@@ -93,11 +98,20 @@
         }
 
         if (this.heldKeys['38']) {
+          this.animation.trails.big += timeDiff;
+          
           ctx.save();
           ctx.translate(that._.x + 22 , that._.y + 50);
-          ctx.fillStyle = "red";
-          ctx.fillRect(0,0,5,30);
+          var imageIndex = (this.animation.trails.big%50)%4;
+          if (this.trail[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trail[imageIndex], -7, 2);
+          } else { debugger; }
+          //ctx.fillStyle = "red";
+          //ctx.fillRect(0,0,5,30);
           ctx.restore();
+        } else {
+          this.animation.trails.big = 0;
         }
         
         if (this.heldKeys['37']) {

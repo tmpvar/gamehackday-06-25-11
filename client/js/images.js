@@ -21,7 +21,17 @@
       'default' : preload('assets/planet_1.png')
     },
     ship   : {
-      'default' : preload('assets/ship_default.png')
+      'default' : {
+        body   : preload('assets/ship_default.png'),
+        trails : {
+          large : [
+            preload('assets/large_trail_1.png'),
+            preload('assets/large_trail_2.png'),
+            preload('assets/large_trail_3.png'),
+            preload('assets/large_trail_4.png')
+          ]
+        }
+      }
     },
     background : {
       'default' : 'assets/ship_default.png'
