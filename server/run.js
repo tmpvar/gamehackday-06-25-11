@@ -7,7 +7,7 @@ var server   = connect(
 );
 
 var io = socketio.listen(server);
-//io.set('log level', 0);
+io.set('log level', 0);
 server.listen(8080);
 
 var Ship = require(__dirname + '/../shared/ship').Ship;
@@ -43,6 +43,6 @@ io.sockets.on('connection', function (socket) {
 
 
 setInterval(function() {
-  Object.keys(scene.players).forEach(function(player) { scene.players[player].tick() });
+  scene.tick();
   io.sockets.emit('tick', scene.serialize());
 }, 33)
