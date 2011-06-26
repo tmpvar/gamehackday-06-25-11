@@ -45,12 +45,12 @@
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
       
       if (this._.landed) {
-        this.animation.landing += timeDiff;
-        ctx.save();
-        var imageIndex = Math.floor(this.animation.landing / 500);
-        if (imageIndex >= 4) imageIndex = 4;
-        ctx.drawImage(imageCache.ship.default.landing[imageIndex % 5], this._.x, this._.y);
-        ctx.restore()
+        // this.animation.landing += timeDiff;
+        //         ctx.save();
+        //         var imageIndex = Math.floor(this.animation.landing / 500);
+        //         if (imageIndex >= 4) imageIndex = 4;
+        ctx.drawImage(imageCache.ship.default.landing[4], this._.x, this._.y);
+        //         ctx.restore()
       } else if (this._.crashed) {
         this.animation.landing += timeDiff;
         ctx.save()
@@ -64,7 +64,15 @@
           ctx.drawImage(imageCache.ship.default.crashing[i], this._.animation.crashing[i].x, this._.animation.crashing[i].y);
         };
       } else if (this.image) {
-        ctx.drawImage(this.image, this._.x, this._.y)
+        var imageIndex = Math.floor((this.planet_distance() - 100) / 4);
+        if (imageIndex < 5) {
+          imageIndex = 4 - imageIndex;
+          if (imageIndex > 4) imageIndex = 4;
+          
+          ctx.drawImage(imageCache.ship.default.landing[imageIndex], this._.x, this._.y)  
+        } else {
+          ctx.drawImage(this.image, this._.x, this._.y)
+        }
       }
 
       if (this.heldKeys['38']) {
