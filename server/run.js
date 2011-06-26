@@ -24,7 +24,7 @@ io.sockets.on('connection', function (socket) {
    y: Math.random()*100,
  });
 
- socket.emit('connection', calculateGameState());
+ socket.emit('connection', scene.serialize());
 
  socket.on('keys', function(heldKeys) {
   ship.handleKeys(heldKeys);
@@ -32,26 +32,14 @@ io.sockets.on('connection', function (socket) {
 
  socket.on('disconnect', function(client) {
    io.sockets.emit('player.disconnect', socket.id);
-   shared.scene.removePlayer(ship);
+   scene.removePlayer(ship);
  }); 
 });
 
-var calculateGameState = function() {
-  lastGameState = {
-    players : []
-  };
 
-  scene.players.forEach(function(player) {
-    var toSend = player._;
-    toSend.id = player.socket.id;
-    lastGameState.players.push(toSend);
-  });
-
-  return lastGameState;
-}
 
 
 setInterval(function() {
   scene.players.forEach(function(player) { player.tick() });
-  io.sockets.emit('tick', calculateGameState());
+  io.sockets.emit('tick', scene.serialize());
 }, 33)

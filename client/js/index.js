@@ -2,29 +2,18 @@
   /*
     Bootstrap the browser
   */
-  var processGameState = function(socket, gameState) {
-    gameState.players.forEach(function(player) {
-      var socketInstance = socket.socket;
-      if (!shipInstances[player.id]) {
-        var ship = new entities.Ship({ sessionid: player.id }, player);
-        ship.image = imageCache.ship.default.body;
-        ship.trails = imageCache.ship.default.trails;
-      } else {
-        shipInstances[player.id]._ = player;
-      }
-    });
-  };
 
   window.bootstrap = function() {
     var l      = window.location;
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
     var scale = 1;
     socket.on('connection', function(gameState) {
-      processGameState(socket, gameState);
+      var scene = new Scene();
+      scene.update(gameState);
 
       if (shipInstances[socket.socket.sessionid]) {
-        
-        var ship = shipInstances[socket.socket.sessionid];
+        var ship = scene.getPlayer(socket.socket.sessionid);
+
         /*
           Keybinds
         */
@@ -45,26 +34,26 @@
         setInterval(function() {
           socket.emit('keys', ship.heldKeys);
         }, 33);
+        
+        
+        socket.on('tick', function(gameState) {
+          scale = ship.planet_distance();
+          $("#vel").html(scale)
+
+          if (scale > 150) {
+            window.scale = 150 / scale;
+
+          } else {
+            window.scale = 1
+          }
+          scene.update(gameState);
+        });
       }
 
-      socket.on('tick', function(gameState) {
-        
-        player = shipInstances[socket.socket.sessionid]
-        scale = player.planet_distance();
-        $("#vel").html(scale)
-        
-        if (scale > 150) {
-          window.scale = 150 / scale;
-          
-        } else {
-          window.scale = 1
-        }
-        
-        processGameState(socket, gameState);
-      });
+
 
       socket.on('player.disconnect', function(id) {
-        scene.removePlayer(shipInstances[id]);
+        scene.removePlayerById(id);
       });
 
       /*
