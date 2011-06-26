@@ -8,7 +8,7 @@
       if (!shipInstances[player.id]) {
         var ship = new entities.Ship({ sessionid: player.id }, player);
         ship.image = imageCache.ship.default.body;
-        ship.trail = imageCache.ship.default.trails.large;
+        ship.trails = imageCache.ship.default.trails;
       } else {
         shipInstances[player.id]._ = player;
       }

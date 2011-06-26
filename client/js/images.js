@@ -29,6 +29,12 @@
             preload('assets/large_trail_2.png'),
             preload('assets/large_trail_3.png'),
             preload('assets/large_trail_4.png')
+          ],
+          small : [
+            preload('assets/small_trail_1.png'),
+            preload('assets/small_trail_2.png'),
+            preload('assets/small_trail_3.png'),
+            preload('assets/small_trail_4.png')
           ]
         }
       }

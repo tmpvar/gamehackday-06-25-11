@@ -103,12 +103,10 @@
           ctx.save();
           ctx.translate(that._.x + 22 , that._.y + 50);
           var imageIndex = (this.animation.trails.big%50)%4;
-          if (this.trail[imageIndex]) {
+          if (this.trails.large[imageIndex]) {
             ctx.scale(2.0);
-            ctx.drawImage(this.trail[imageIndex], -7, 2);
-          } else { debugger; }
-          //ctx.fillStyle = "red";
-          //ctx.fillRect(0,0,5,30);
+            ctx.drawImage(this.trails.large[imageIndex], -7, 2);
+          }
           ctx.restore();
         } else {
           this.animation.trails.big = 0;
@@ -117,16 +115,22 @@
         if (this.heldKeys['37']) {
           ctx.save();
           ctx.translate(that._.x + 34, that._.y + 35);
-          ctx.fillStyle = "red";
-          ctx.fillRect(0,0,5,20);
+          var imageIndex = (this.animation.trails.big%50)%4;
+          if (this.trails.small[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trails.small[imageIndex], -6, 2);
+          }
           ctx.restore();
         }
 
         if (this.heldKeys['39']) {
           ctx.save();
           ctx.translate(that._.x + 10, that._.y + 35);
-          ctx.fillStyle = "red";
-          ctx.fillRect(0,0,5,20);
+          var imageIndex = (this.animation.trails.big%50)%4;
+          if (this.trails.small[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trails.small[imageIndex], -5, 2);
+          }
           ctx.restore();
         }
 
