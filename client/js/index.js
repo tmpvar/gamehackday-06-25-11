@@ -11,7 +11,7 @@
       var scene = new Scene();
       scene.update(gameState);
 
-      if (shipInstances[socket.socket.sessionid]) {
+      if (scene.hasPlayer(socket.socket.sessionid)) {
         var ship = scene.getPlayer(socket.socket.sessionid);
 
         /*

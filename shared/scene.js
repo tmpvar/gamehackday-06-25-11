@@ -5,36 +5,41 @@
 
   exports.Scene.prototype = {
     removePlayerById :  function(playerId) {
-      var current = this.players.length;
-      while(current--) {
-        if (scene.players[current].id === playerId) {
-          scene.players.splice(current, 1);
-          break;
-        }
+      if (this.players[playerId]) {
+        delete this.players[playerId];
       }
     },
+    addPlayer : function(player) {
+      this.players[player.id] = player;
+    },
+    hasPlayer : function(playerId) {
+      return !!this.players[playerId];
+    },
     serialize :  function() {
+      var that = this;
       var lastGameState = {
         players : []
       };
 
-      this.players.forEach(function(player) {
+      Object.keys(this.players).forEach(function(key) {
+        var player = that.players[key];
         var toSend = player._;
-        toSend.id = player.socket.id;
+        toSend.id = player.id;
         lastGameState.players.push(toSend);
       });
 
       return lastGameState;
     },
     update : function(gameState) {
-      console.log(gameState)
+      var that = this;
+
       gameState.players.forEach(function(player) {
-        if (!shipInstances[player.id]) {
-          var ship = new entities.Ship({ sessionid: player.id }, player);
+        if (!that.hasPlayer(player.id)) {
+          var ship = new Ship(player);
           ship.image = imageCache.ship.default.body;
           ship.trails = imageCache.ship.default.trails;
         } else {
-          shipInstances[player.id]._ = player;
+          that.players[player.id].update(player);
         }
       });
     }

@@ -19,10 +19,12 @@ var scene = new Scene();
 var lastGameState = {};
 
 io.sockets.on('connection', function (socket) {
- var ship = new Ship(socket, {
+ var ship = new Ship({
    x: Math.random()*100,
    y: Math.random()*100,
  });
+
+ scene.addPlayer(ship);
 
  socket.emit('connection', scene.serialize());
 
