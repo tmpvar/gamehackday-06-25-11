@@ -187,7 +187,7 @@
     },
 
     serialize : function() {
-      var ret = this._;
+      var ret = JSON.parse(JSON.stringify(this._));
       ret.projectiles = [];
       this.projectiles.forEach(function(projectile) {
         ret.projectiles.push(projectile.serialize());
@@ -231,12 +231,7 @@
       }
     },
     fire  : function() {
-      console.log('fire')
-      console.log(this._)
-      console.log('done')
-
-      var v = this._;
-      var projectile = new Projectile(this._);
+      var projectile = new Projectile(JSON.parse(JSON.stringify(this._)));
       this.projectiles.push(projectile);
     },
     addVelocity: function(amount) {
