@@ -79,6 +79,7 @@
         return Math.sqrt(Math.pow(that._.x - 275, 2) + Math.pow(that._.y - 175, 2));
       }
 
+      this.heldKeys = {};
       this.render = function(ctx) {
         ctx.save()
         ctx.translate(300, 200)
@@ -90,6 +91,13 @@
         if (this.image) {
           ctx.drawImage(this.image, that._.x, that._.y)
         }
+
+        if (this.heldKeys['38']) {
+          ctx.translate(that._.x + 15, that._.y + 50);
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,20,20);
+        }
+        
         ctx.restore();
       };
     }
