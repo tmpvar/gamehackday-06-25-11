@@ -1,6 +1,7 @@
 (function(exports) {
   exports.Scene = function() {
     this.players = [];
+    this.planets = [];
   };
 
   exports.Scene.prototype = {
@@ -15,6 +16,9 @@
     hasPlayer : function(playerId) {
       return !!this.players[playerId];
     },
+    addPlanet : function(planet) {
+      this.planets.push(planet);
+    },
     serialize :  function() {
       var that = this;
       var lastGameState = {
@@ -24,7 +28,6 @@
       Object.keys(this.players).forEach(function(key) {
         var player = that.players[key];
         var toSend = player._;
-        toSend.id = player.id;
         lastGameState.players.push(toSend);
       });
 
@@ -32,16 +35,30 @@
     },
     update : function(gameState) {
       var that = this;
-
       gameState.players.forEach(function(player) {
         if (!that.hasPlayer(player.id)) {
           var ship = new Ship(player);
           ship.image = imageCache.ship.default.body;
           ship.trails = imageCache.ship.default.trails;
+          that.addPlayer(ship);
         } else {
           that.players[player.id].update(player);
         }
       });
+    },
+    render : function(context, timeDiff) {
+      var player = this.players.length;
+
+      while(player--) {
+        this.players[player].render(context, timeDiff);
+      };
+
+      var planet = this.planets.length;
+
+      while(planet--) {
+        this.planets[planet].render(context, timeDiff);
+      };
+
     }
   };
 })(typeof window === 'undefined' ? exports : window);

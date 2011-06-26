@@ -22,6 +22,7 @@ io.sockets.on('connection', function (socket) {
  var ship = new Ship({
    x: Math.random()*100,
    y: Math.random()*100,
+   id : socket.id
  });
 
  scene.addPlayer(ship);

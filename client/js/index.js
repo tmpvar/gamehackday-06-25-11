@@ -9,6 +9,7 @@
     var scale = 1;
     socket.on('connection', function(gameState) {
       var scene = new Scene();
+      scene.addPlanet(new Planet());
       scene.update(gameState);
 
       if (scene.hasPlayer(socket.socket.sessionid)) {
@@ -65,25 +66,10 @@
       var fps = 1000/30;
       var lastTime = Date.now();
       setTimeout(function nextFrame() {
-        context.save()
         // Allow us to pass the amount of time that has passed into render methods
         var currentTime = Date.now();
         var timeDiff    = currentTime-lastTime;
-        
-        context.drawImage(imageCache.background.default, 0 , 0)
-
-        context.restore();
-        context.save();
-        
-        context.translate(300, 200);
-        context.scale(window.scale, window.scale);
-        context.translate(-300, -200);
-        context.drawImage(imageCache.planet.default, 200, 100)
-        context.restore()
-        var current = scene.players.length;
-        while(current--) {
-          scene.players[current].render(context, timeDiff);
-        };
+        scene.render(context, timeDiff);
 
         lastTime = currentTime;
         setTimeout(nextFrame, fps);
