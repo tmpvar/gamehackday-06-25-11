@@ -1,6 +1,6 @@
 (function(exports) {
   exports.Scene = function() {
-    this.players = [];
+    this.players = {};
     this.planets = [];
   };
 
@@ -11,10 +11,13 @@
       }
     },
     addPlayer : function(player) {
-      this.players[player.id] = player;
+      this.players[player.getId()] = player;
     },
     hasPlayer : function(playerId) {
       return !!this.players[playerId];
+    },
+    getPlayer : function(playerId) {
+      return this.players[playerId] || null;
     },
     addPlanet : function(planet) {
       this.planets.push(planet);
@@ -41,16 +44,18 @@
           ship.image = imageCache.ship.default.body;
           ship.trails = imageCache.ship.default.trails;
           that.addPlayer(ship);
+          console.log('added', that.players);
         } else {
           that.players[player.id].update(player);
         }
       });
     },
     render : function(context, timeDiff) {
-      var player = this.players.length;
+      var keys = Object.keys(this.players);
+      var player = keys.length; 
 
       while(player--) {
-        this.players[player].render(context, timeDiff);
+        this.players[keys[player]].render(context, timeDiff);
       };
 
       var planet = this.planets.length;

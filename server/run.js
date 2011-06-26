@@ -43,6 +43,6 @@ io.sockets.on('connection', function (socket) {
 
 
 setInterval(function() {
-  scene.players.forEach(function(player) { player.tick() });
+  Object.keys(scene.players).forEach(function(player) { scene.players[player].tick() });
   io.sockets.emit('tick', scene.serialize());
 }, 33)

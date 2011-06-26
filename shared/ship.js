@@ -1,5 +1,8 @@
-;
-(function(exports) {
+;(function(exports) {
+  if (typeof require !== 'undefined') {
+    var calc_angle = require('./trig').calc_angle;
+    var CONST      = require('./trig').CONST;
+  }
 
   exports.Ship = function(initial_state) {
     this._ = {
@@ -28,18 +31,18 @@
       ctx.translate(300, 200)
       ctx.scale(window.scale, window.scale)
       ctx.translate(-300, -200)
-      ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
-      ctx.rotate(that._.rotation + (Math.PI * 0.5));
-      ctx.translate(-(that._.x + 25), -(that._.y + 25));
+      ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
+      ctx.rotate(this._.rotation + (Math.PI * 0.5));
+      ctx.translate(-(this._.x + 25), -(this._.y + 25));
       if (this.image) {
-        ctx.drawImage(this.image, that._.x, that._.y)
+        ctx.drawImage(this.image, this._.x, this._.y)
       }
 
       if (this.heldKeys['38']) {
         this.animation.trails.big += timeDiff;
 
         ctx.save();
-        ctx.translate(that._.x + 22, that._.y + 50);
+        ctx.translate(this._.x + 22, this._.y + 50);
         var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.large[imageIndex]) {
           ctx.scale(2.0);
@@ -52,7 +55,7 @@
 
       if (this.heldKeys['37']) {
         ctx.save();
-        ctx.translate(that._.x + 34, that._.y + 35);
+        ctx.translate(this._.x + 34, this._.y + 35);
         var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
@@ -63,7 +66,7 @@
 
       if (this.heldKeys['39']) {
         ctx.save();
-        ctx.translate(that._.x + 10, that._.y + 35);
+        ctx.translate(this._.x + 10, this._.y + 35);
         var imageIndex = (this.animation.trails.big % 50) % 4;
         if (this.trails.small[imageIndex]) {
           ctx.scale(2.0);
@@ -76,7 +79,9 @@
   }
 
   exports.Ship.prototype = {
-
+    getId : function() {
+      return this._.id;
+    },
     update: function(vals) {
       for (var key in vals) {
         if (vals.hasOwnProperty(key)) {
@@ -87,10 +92,10 @@
 
     tick: function(scene) {
 
-      var x = that._.velocity * Math.cos(that._.velocity_angle);
-      var y = that._.velocity * Math.sin(that._.velocity_angle);
+      var x = this._.velocity * Math.cos(this._.velocity_angle);
+      var y = this._.velocity * Math.sin(this._.velocity_angle);
 
-      var planet_angle = calc_angle(that._.x - 275, that._.y - 175) - Math.PI
+      var planet_angle = calc_angle(this._.x - 275, this._.y - 175) - Math.PI
       var planet_distance = this.planet_distance();
 
       if (planet_distance < 100) planet_distance = 100;
@@ -99,7 +104,7 @@
       y += Math.sin(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
 
       // update the ship position due to speed
-      that._.rotation += that._.rotation_delta;
+      this._.rotation += this._.rotation_delta;
 
       this._.velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
@@ -108,19 +113,19 @@
 
       this._.velocity_angle = calc_angle(x, y)
 
-      that._.x += x;
-      that._.y += y;
+      this._.x += x;
+      this._.y += y;
 
       // update the ship position due to gravity
-      that._.x += Math.cos(planet_angle)
-      that._.y += Math.sin(planet_angle)
+      this._.x += Math.cos(planet_angle)
+      this._.y += Math.sin(planet_angle)
 
-      that._.rotation_delta = that._.rotation_delta * 0.95;
+      this._.rotation_delta = this._.rotation_delta * 0.95;
 
     },
 
     planet_distance: function() {
-      return Math.sqrt(Math.pow(that._.x - 275, 2) + Math.pow(that._.y - 175, 2));
+      return Math.sqrt(Math.pow(this._.x - 275, 2) + Math.pow(this._.y - 175, 2));
     },
 
     rotate: function(degrees) {
