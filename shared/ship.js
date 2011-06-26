@@ -159,6 +159,9 @@
         this.fire();
       }
     },
+    fire  : function() {
+      
+    },
     addVelocity: function(amount) {
       var x = this._.velocity * Math.cos(this._.velocity_angle);
       var y = this._.velocity * Math.sin(this._.velocity_angle);
