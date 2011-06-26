@@ -15,7 +15,6 @@ var Planet = require(__dirname + '/../shared/planet').Planet;
 var Projectile = require(__dirname + '/../shared/projectile').Projectile;
 var Scene = require(__dirname + '/../shared/scene').Scene;
 var scene = new Scene();
-console.log(Projectile)
 var lastGameState = {};
 
 io.sockets.on('connection', function (socket) {
@@ -44,7 +43,6 @@ setInterval(function() {
   try {
     io.sockets.emit('tick', scene.serialize());
   } catch (e) {
-    console.log(scene.serialize());
     process.exit();
   }
 }, 33)

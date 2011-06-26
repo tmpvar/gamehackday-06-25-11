@@ -4,9 +4,10 @@
     var calc_angle = require('./trig').calc_angle;
     var CONST      = require('./trig').CONST
   }
-  
+
   exports.Projectile = function(data) {
-    this._ = JSON.parse(JSON.stringify(data));
+    this._ = {};
+    this.update(data);
   };
 
   exports.Projectile.prototype = {
@@ -22,13 +23,13 @@
     update : function(vals) {
       for (var key in vals) {
         if (vals.hasOwnProperty(key)) {
+          console.log(vals[key]);
           this._[key] = vals[key];
         }
       }
     },
     render  : function(ctx, timeDiff) {
       ctx.save();
-      console.log(this);
       ctx.fillStyle = "red";
       ctx.fillRect(0, 0, 10, 10);
       ctx.restore();
