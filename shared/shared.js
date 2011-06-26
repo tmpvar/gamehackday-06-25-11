@@ -2,7 +2,8 @@
   var CONST = {
     THRUST : 10, // units
     ROTATION_DELTA : 0.006, // degrees
-    MAX_SPEED: 3
+    MAX_SPEED: 3,
+    GRAVITY: 500
     
   };
   
@@ -40,12 +41,12 @@
         var y = that._.velocity * Math.sin(that._.velocity_angle);
 
         var planet_angle = calc_angle(that._.x - 275, that._.y - 175) - Math.PI
-        var planet_distance = Math.sqrt(Math.pow(that._.x - 275, 2) + Math.pow(that._.y - 175, 2))
+        var planet_distance = this.planet_distance();
 
         if (planet_distance < 100) planet_distance = 100;
 
-        x += Math.cos(planet_angle) * ((500 / Math.pow(planet_distance, 2)));
-        y += Math.sin(planet_angle) * ((500 / Math.pow(planet_distance, 2)));
+        x += Math.cos(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
+        y += Math.sin(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
 
         // update the ship position due to speed
         that._.rotation += that._.rotation_delta;
@@ -65,17 +66,24 @@
         that._.x += Math.cos(planet_angle)
         that._.y += Math.sin(planet_angle)
 
-        if (that._.x > 600) that._.x = 0
-        if (that._.x < 0) that._.x = 600
-        if (that._.y > 400) that._.y = 0
-        if (that._.y < 0) that._.y = 400
+        // if (that._.x > 600) that._.x = 0
+        // if (that._.x < 0) that._.x = 600
+        // if (that._.y > 400) that._.y = 0
+        // if (that._.y < 0) that._.y = 400
         
         that._.rotation_delta = that._.rotation_delta * 0.95;
         
       }
+      
+      this.planet_distance = function() {
+        return Math.sqrt(Math.pow(that._.x - 275, 2) + Math.pow(that._.y - 175, 2));
+      }
 
       this.render = function(ctx) {
         ctx.save()
+        ctx.translate(300, 200)
+        ctx.scale(window.scale, window.scale)
+        ctx.translate(-300, -200)
         ctx.translate(that._.x + 25, that._.y + 25); //that._.x, that._.y);
         ctx.rotate(that._.rotation + (Math.PI * 0.5));
         ctx.translate(-(that._.x + 25), -(that._.y + 25));
@@ -134,6 +142,9 @@
     }
   };
   
+  /**
+   * Computes theta from the x-axis to a line between the origin and x,y
+   */
   function calc_angle(x, y) {
     if (x > 0) {
       return Math.atan(y / x);
@@ -148,8 +159,9 @@
     } else {
       return  0;
     }
-    
   }
+  
+  
 
   var scene = exports.scene = {
     removePlayer :  function(player) {
