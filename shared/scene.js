@@ -50,6 +50,10 @@
         }
       });
     },
+    tick : function() {
+      var that = this;
+      Object.keys(this.players).forEach(function(player) { that.players[player].tick() });
+    },
     render : function(context, timeDiff) {
       var planet = this.planets.length;
 
