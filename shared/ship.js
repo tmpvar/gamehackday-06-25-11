@@ -23,7 +23,8 @@
     this.animation = {
       trails: {
         big: 0
-      }
+      },
+      landing: 0
     }
 
     this.render = function(ctx, timeDiff) {
@@ -34,7 +35,17 @@
       ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
       ctx.rotate(this._.rotation + (Math.PI * 0.5));
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
-      if (this.image) {
+      
+      if (this._.landed) {
+        this.animation.landing += timeDiff;
+        ctx.save()
+        var imageIndex = Math.floor(this.animation.landing / 500);
+        if (imageIndex >= 4) imageIndex = 4;
+        ctx.drawImage(imageCache.ship.default.landing[imageIndex % 5], this._.x, this._.y);
+        ctx.restore()
+      } else if (this._.crashed) {
+        console.log(this._.crashed);
+      } else if (this.image) {
         ctx.drawImage(this.image, this._.x, this._.y)
       }
 
@@ -98,29 +109,50 @@
       var planet_angle = calc_angle(this._.x - 275, this._.y - 175) - Math.PI
       var planet_distance = this.planet_distance();
 
-      if (planet_distance < 100) planet_distance = 100;
+      //if (planet_distance < 100) planet_distance = 100;
 
       x += Math.cos(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
       y += Math.sin(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
 
       // update the ship position due to speed
-      this._.rotation += this._.rotation_delta;
+      
+      if (planet_distance < 100) { // contact planet
+        planet_angle = (planet_angle - Math.PI) % (Math.PI * 2)
+        var rotation = this._.rotation % (Math.PI * 2)
+        
+        if (this._.velocity <= 2 && (rotation > planet_angle - 0.4) && (rotation < planet_angle + 0.4)) { // land
+          this._.landed = true;
+          this._.rotation = planet_angle;
+        } else { // crash
+          this._.crashed = {
+            velocity: this._.velocity,
+            planet_angle: planet_angle,
+            angle: this._.rotation
+          };
+        }
 
-      this._.velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      } else { // flying
+        
+        this._.landed = false;
+        
+        this._.rotation += this._.rotation_delta;
+        this._.velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-      if (this._.velocity > CONST.MAX_SPEED) this._.velocity = CONST.MAX_SPEED;
-      if (this._.velocity < 0) this._.velocity = 0;
+        if (this._.velocity > CONST.MAX_SPEED) this._.velocity = CONST.MAX_SPEED;
+        if (this._.velocity < 0) this._.velocity = 0;
 
-      this._.velocity_angle = calc_angle(x, y)
+        this._.velocity_angle = calc_angle(x, y)
+        
+        this._.x += x;
+        this._.y += y;
 
-      this._.x += x;
-      this._.y += y;
+        // update the ship position due to gravity
+        this._.x += Math.cos(planet_angle)
+        this._.y += Math.sin(planet_angle)
 
-      // update the ship position due to gravity
-      this._.x += Math.cos(planet_angle)
-      this._.y += Math.sin(planet_angle)
+        this._.rotation_delta = this._.rotation_delta * 0.95;
+      }      
 
-      this._.rotation_delta = this._.rotation_delta * 0.95;
 
     },
 

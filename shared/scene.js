@@ -44,16 +44,20 @@
           ship.image = imageCache.ship.default.body;
           ship.trails = imageCache.ship.default.trails;
           that.addPlayer(ship);
-          console.log('added', that.players);
         } else {
           that.players[player.id].update(player);
         }
       });
     },
+
     tick : function() {
       var that = this;
-      Object.keys(this.players).forEach(function(player) { that.players[player].tick() });
+      Object.keys(this.players).forEach(function(player_key) { 
+        var player = that.players[player_key];
+        player.tick();
+      });
     },
+
     render : function(context, timeDiff) {
       var planet = this.planets.length;
 

@@ -23,6 +23,13 @@
     ship   : {
       'default' : {
         body   : preload('assets/ship_default.png'),
+        landing : [
+            preload('assets/ship_landing_1.png'),
+            preload('assets/ship_landing_2.png'),
+            preload('assets/ship_landing_3.png'),
+            preload('assets/ship_landing_4.png'),
+            preload('assets/ship_landing_5.png'),
+        ],
         trails : {
           large : [
             preload('assets/large_trail_1.png'),
