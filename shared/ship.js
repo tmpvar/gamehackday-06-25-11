@@ -227,6 +227,11 @@
       }
     },
     fire  : function() {
+      console.log('fire')
+      console.log(this._)
+      console.log('done')
+
+      var v = this._;
       var projectile = new Projectile(this._);
       this.projectiles.push(projectile);
     },
