@@ -5,7 +5,7 @@
 
   exports.Scene.prototype = {
     removePlayerById :  function(playerId) {
-      var current = scene.players.length;
+      var current = this.players.length;
       while(current--) {
         if (scene.players[current].id === playerId) {
           scene.players.splice(current, 1);

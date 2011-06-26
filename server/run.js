@@ -7,7 +7,7 @@ var server   = connect(
 );
 
 var io = socketio.listen(server);
-io.set('log level', 0);
+//io.set('log level', 0);
 server.listen(8080);
 
 var Ship = require(__dirname + '/../shared/ship').Ship;
@@ -32,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 
  socket.on('disconnect', function(client) {
    io.sockets.emit('player.disconnect', socket.id);
-   scene.removePlayer(ship);
+   scene.removePlayerById(socket.id);
  }); 
 });
 
