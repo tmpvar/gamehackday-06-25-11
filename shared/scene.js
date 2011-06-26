@@ -51,17 +51,18 @@
       });
     },
     render : function(context, timeDiff) {
+      var planet = this.planets.length;
+
+      while(planet--) {
+        this.planets[planet].render(context, timeDiff);
+      };
+
+      
       var keys = Object.keys(this.players);
       var player = keys.length; 
 
       while(player--) {
         this.players[keys[player]].render(context, timeDiff);
-      };
-
-      var planet = this.planets.length;
-
-      while(planet--) {
-        this.planets[planet].render(context, timeDiff);
       };
 
     }
