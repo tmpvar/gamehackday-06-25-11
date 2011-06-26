@@ -1,5 +1,9 @@
 (function(exports) {
-  exports.scene = {
+  exports.Scene = function() {
+    this.players = [];
+  };
+
+  exports.Scene.prototype = {
     removePlayer :  function(player) {
       var current = scene.players.length;
       while(current--) {
@@ -9,7 +13,6 @@
           break;
         }
       }
-    },
-    players : []
+    }
   };
 })(typeof window === 'undefined' ? exports : window);
