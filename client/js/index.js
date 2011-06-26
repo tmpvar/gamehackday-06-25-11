@@ -51,8 +51,8 @@
           scale = ship.planet_distance();
           $("#vel").html(scale)
 
-          if (scale > 150) {
-            window.scale = 150 / scale;
+          if (scale > 200) {
+            window.scale = 200 / scale;
 
           } else {
             window.scale = 1
