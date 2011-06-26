@@ -49,10 +49,15 @@
         }
       });
     },
+
     tick : function() {
       var that = this;
-      Object.keys(this.players).forEach(function(player) { that.players[player].tick() });
+      Object.keys(this.players).forEach(function(player_key) { 
+        var player = that.players[player_key];
+        player.tick();
+      });
     },
+
     render : function(context, timeDiff) {
       var planet = this.planets.length;
 
