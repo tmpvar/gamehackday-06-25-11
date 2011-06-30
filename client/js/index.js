@@ -73,7 +73,7 @@
       var canvas = document.getElementById('render-target');
       var context = canvas.getContext('2d');
 
-      var fps = 1000/30;
+      var fps = 1000/14;
       var lastTime = Date.now();
       setTimeout(function nextFrame() {
         // Allow us to pass the amount of time that has passed into render methods

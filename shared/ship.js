@@ -86,6 +86,7 @@
       }
 
       if (this.heldKeys['37']) {
+        this.animation.trails.big += timeDiff;
         ctx.save();
         ctx.translate(this._.x + 34, this._.y + 35);
         var imageIndex = (this.animation.trails.big % 50) % 4;
@@ -97,6 +98,7 @@
       }
 
       if (this.heldKeys['39']) {
+        this.animation.trails.big += timeDiff;
         ctx.save();
         ctx.translate(this._.x + 10, this._.y + 35);
         var imageIndex = (this.animation.trails.big % 50) % 4;
@@ -106,6 +108,22 @@
         }
         ctx.restore();
       }
+
+      if (this.heldKeys['40']) {
+        this.animation.trails.big += timeDiff;
+        ctx.save();
+        
+        var imageIndex = (this.animation.trails.big % 50) % 4;
+        if (this.trails.small[imageIndex]) {
+          ctx.translate(this._.x + 33, this._.y-0.5);
+          ctx.rotate(Math.PI * .99999999)
+
+          ctx.drawImage(this.trails.small[imageIndex], 0, 0);
+
+        }
+        ctx.restore();
+      }
+
       ctx.restore();
       
       this.projectiles.forEach(function(projectile) {
