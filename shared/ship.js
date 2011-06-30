@@ -116,6 +116,7 @@
   }
 
   exports.Ship.prototype = {
+    _lastFire : 0,
     getId : function() {
       return this._.id;
     },
@@ -193,8 +194,7 @@
         this._.y += Math.sin(planet_angle)
 
         this._.rotation_delta = this._.rotation_delta * 0.95;
-      }      
-
+      }
 
       // update projectiles
       this.projectiles.forEach(function(projectile) {
@@ -222,6 +222,12 @@
     handleKeys: function(heldKeys) {
       // Forward
       if (heldKeys['38']) {
+        if (this._.landed) {
+          
+          this._.landed = false;
+          this.addVelocity(CONST.THRUST*40);
+        }
+  
         // Thrust forward!
         this.addVelocity(CONST.THRUST);
       }
@@ -247,11 +253,15 @@
       }
     },
     fire  : function() {
-      var data = JSON.parse(JSON.stringify(this._))
-      data.x += 25;
-      data.y += 25;
-      var projectile = new Projectile(data);
-      this.projectiles.push(projectile);
+      if (Date.now()-this._lastFire > 200) {
+        var data = JSON.parse(JSON.stringify(this._))
+        data.x += 25;
+        data.y += 25;
+        var projectile = new Projectile(data);
+        this.projectiles.unshift(projectile);
+        this.projectiles.length = 100;
+        this._lastFire = Date.now();
+      }
     },
     addVelocity: function(amount) {
       var x = this._.velocity * Math.cos(this._.velocity_angle);
