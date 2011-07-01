@@ -21,7 +21,7 @@
   exports.CONST = {
     THRUST : 10, // units
     ROTATION_DELTA : 0.006, // degrees
-    MAX_SPEED: 3,
+    MAX_SPEED: 6,
     GRAVITY: 750
   
   };
