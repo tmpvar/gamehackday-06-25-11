@@ -50,11 +50,17 @@
 
       ctx.rotate(Math.PI/2);
 
+
+
+      // Calculate the color
+      green_hsv = rgbToHsv(0, 255, 0);
+      red_hsv   = rgbToHsv(255, 0, 0);
+
+      var rgb = hsvToRgb(transition3(this._.health, 100, red_hsv, green_hsv));
       var size = this._.health/100;
-      var color = Math.round((this._.health / 100) * 255);
-      var R = 255 - color;
-      var G = color;
-      var B=0;
+      var color = Math.round(size) * 255
+      var R = roundRgb(rgb[0]), G = roundRgb(rgb[1]), B = roundRgb(rgb[2]);
+
       ctx.fillStyle = "rgba(255,255,255,0.3)";
       ctx.fillRect(-45, -25, 5, 50);
       ctx.fillStyle = 'rgba(' + R + ',' + G + ',' + B + ', 1)';
@@ -62,9 +68,9 @@
 
       if (player) {
         ctx.beginPath();
-        ctx.strokeStyle = "rgba(0,127,255,0.5)";
-        ctx.arc(0, 0, (40*size), 0, Math.PI*2, true); // Outer circle
-        ctx.stroke();
+        ctx.fillStyle = "rgba(0,127,255,0.2)";
+        ctx.arc(0, 0, 40, 0, Math.PI*2, true); // Outer circle
+        ctx.fill();
       }
 
       ctx.rotate(-Math.PI/2);
@@ -248,8 +254,10 @@
       }
 
       // update projectiles
+      var newProjectiles = [];
       this.projectiles.forEach(function(projectile) {
         projectile.tick(scene);
+        //if (newProjectiles)
       });
     },
 
