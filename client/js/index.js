@@ -16,7 +16,7 @@
     var socket = io.connect(l.protocol + "//" + l.hostname + ':' + l.port);
     var scale = 1;
     socket.on('connection', function(gameState) {
-      var scene = new Scene();
+      var scene = window.scene = new Scene();
       scene.addPlanet(new Planet());
       scene.update(gameState);
 

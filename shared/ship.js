@@ -4,6 +4,8 @@
     var CONST      = require('./trig').CONST;
     var Projectile = require('./projectile').Projectile;
   }
+  
+  var MAX_HEALTH = 100;
 
   exports.Ship = function(initial_state) {
     this._ = {
@@ -14,7 +16,7 @@
       velocity: 0,
       thrust: 0,
       fuel: 100,
-      health : 100,
+      health : MAX_HEALTH,
       x: undefined,
       y: undefined
     };
@@ -88,61 +90,61 @@
         }
       }
 
-      if (this.heldKeys['38']) {
-        this.animation.trails.big += timeDiff;
+      if (!this._.crashed) {
+        if (this.heldKeys['38']) {
+          this.animation.trails.big += timeDiff;
 
-        ctx.save();
-        ctx.translate(this._.x + 22, this._.y + 50);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
-        if (this.trails.large[imageIndex]) {
-          ctx.scale(2.0);
-          ctx.drawImage(this.trails.large[imageIndex], -7, 2);
+          ctx.save();
+          ctx.translate(this._.x + 22, this._.y + 50);
+          var imageIndex = (this.animation.trails.big % 50) % 4;
+          if (this.trails.large[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trails.large[imageIndex], -7, 2);
+          }
+          ctx.restore();
+        } else {
+          this.animation.trails.big = 0;
         }
-        ctx.restore();
-      } else {
-        this.animation.trails.big = 0;
-      }
 
-      if (this.heldKeys['37']) {
-        this.animation.trails.big += timeDiff;
-        ctx.save();
-        ctx.translate(this._.x + 34, this._.y + 35);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
-        if (this.trails.small[imageIndex]) {
-          ctx.scale(2.0);
-          ctx.drawImage(this.trails.small[imageIndex], -6, 2);
+        if (this.heldKeys['37']) {
+          this.animation.trails.big += timeDiff;
+          ctx.save();
+          ctx.translate(this._.x + 34, this._.y + 35);
+          var imageIndex = (this.animation.trails.big % 50) % 4;
+          if (this.trails.small[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trails.small[imageIndex], -6, 2);
+          }
+          ctx.restore();
         }
-        ctx.restore();
-      }
 
-      if (this.heldKeys['39']) {
-        this.animation.trails.big += timeDiff;
-        ctx.save();
-        ctx.translate(this._.x + 10, this._.y + 35);
-        var imageIndex = (this.animation.trails.big % 50) % 4;
-        if (this.trails.small[imageIndex]) {
-          ctx.scale(2.0);
-          ctx.drawImage(this.trails.small[imageIndex], -5, 2);
+        if (this.heldKeys['39']) {
+          this.animation.trails.big += timeDiff;
+          ctx.save();
+          ctx.translate(this._.x + 10, this._.y + 35);
+          var imageIndex = (this.animation.trails.big % 50) % 4;
+          if (this.trails.small[imageIndex]) {
+            ctx.scale(2.0);
+            ctx.drawImage(this.trails.small[imageIndex], -5, 2);
+          }
+          ctx.restore();
         }
-        ctx.restore();
-      }
 
-      if (this.heldKeys['40']) {
-        this.animation.trails.big += timeDiff;
-        ctx.save();
+        if (this.heldKeys['40']) {
+          this.animation.trails.big += timeDiff;
+          ctx.save();
         
-        var imageIndex = (this.animation.trails.big % 50) % 4;
-        if (this.trails.small[imageIndex]) {
-          ctx.translate(this._.x + 33, this._.y-0.5);
-          ctx.rotate(Math.PI * .99999999)
+          var imageIndex = (this.animation.trails.big % 50) % 4;
+          if (this.trails.small[imageIndex]) {
+            ctx.translate(this._.x + 33, this._.y-0.5);
+            ctx.rotate(Math.PI * .99999999)
 
-          ctx.drawImage(this.trails.small[imageIndex], 0, 0);
+            ctx.drawImage(this.trails.small[imageIndex], 0, 0);
 
+          }
+          ctx.restore();
         }
-        ctx.restore();
       }
-
-
 
       ctx.restore();
       

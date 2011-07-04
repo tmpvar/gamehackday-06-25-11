@@ -31,7 +31,8 @@
 
       for (var i=0, l=shipKeys.length;i<l;i++) {
         var ship = scene.players[shipKeys[i]];
-        if (ship._.x < newx && ship.width  + ship._.x > newx &&
+        if (this.ship._.id !== shipKeys[i] && 
+            ship._.x < newx && ship.width  + ship._.x > newx &&
             ship._.y < newy && ship.height + ship._.y > newy)
         {
           // ship got hit.
@@ -53,7 +54,7 @@
     },
     render  : function(ctx, timeDiff) {
       if (!this._.active) {
-        //return;
+        return;
       }
 
       ctx.save();
