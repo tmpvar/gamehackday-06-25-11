@@ -14,10 +14,14 @@
       velocity: 0,
       thrust: 0,
       fuel: 100,
+      health : 100,
       x: undefined,
       y: undefined
     };
-    
+
+    this.width = 50;
+    this.height = 50;
+
     this.projectiles = [];
 
     if (initial_state) this.update(initial_state);
@@ -42,6 +46,14 @@
       ctx.translate(-400, -300)
       ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
       ctx.rotate(this._.rotation + (Math.PI * 0.5));
+      
+      var R=(255*(this._.health))/100
+      var G=(255*(100-this._.health))/100; 
+      var B=0
+      
+      ctx.fillStyle = 'rgb(' + R + ',' + G + ',' + R + ')';
+      ctx.fillRect(-25, - 25, 5, 50);
+      
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
       
       if (this._.landed) {
@@ -124,6 +136,8 @@
         ctx.restore();
       }
 
+
+
       ctx.restore();
       
       this.projectiles.forEach(function(projectile) {
@@ -145,7 +159,7 @@
           this.projectiles = [];
           vals[key].forEach(function(projectileData) {
             // TODO: wtf is going on?
-            var projectile = new window.Projectile(projectileData);
+            var projectile = new window.Projectile(that, projectileData);
             that.projectiles.push(projectile);
           });
         } else if (vals.hasOwnProperty(key)) {
@@ -189,7 +203,7 @@
               part.x += Math.cos(part.velocity_angle) * part.velocity
               part.y += Math.sin(part.velocity_angle) * part.velocity
             }
-          }; 
+          }
         }
 
       } else { // flying
@@ -216,7 +230,7 @@
 
       // update projectiles
       this.projectiles.forEach(function(projectile) {
-        projectile.tick();
+        projectile.tick(scene);
       });
     },
 
