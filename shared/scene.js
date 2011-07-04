@@ -54,7 +54,7 @@
       var that = this;
       Object.keys(this.players).forEach(function(player_key) { 
         var player = that.players[player_key];
-        player.tick();
+        player.tick(that);
       });
     },
 

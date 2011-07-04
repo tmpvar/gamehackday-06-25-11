@@ -45,17 +45,21 @@
       ctx.scale(window.scale, window.scale)
       ctx.translate(-400, -300)
       ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
+
+      ctx.rotate(Math.PI/2);
+      var R=Math.floor(255*(100-this._.health))/100;
+      var G=Math.floor((255*(this._.health/100)));
+      var B=0;
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillRect(-45, -25, 5, 50);
+      ctx.fillStyle = 'rgba(' + R + ',' + G + ',' + B + ', 1.0)';
+      var size = (this._.health/100);
+      ctx.fillRect(-45, 25-(50*size), 5, 50*size);
+      ctx.rotate(-Math.PI/2);
+
       ctx.rotate(this._.rotation + (Math.PI * 0.5));
-      
-      var R=(255*(this._.health))/100
-      var G=(255*(100-this._.health))/100; 
-      var B=0
-      
-      ctx.fillStyle = 'rgb(' + R + ',' + G + ',' + R + ')';
-      ctx.fillRect(-25, - 25, 5, 50);
-      
       ctx.translate(-(this._.x + 25), -(this._.y + 25));
-      
+
       if (this._.landed) {
         ctx.drawImage(imageCache.ship.default.landing[4], this._.x, this._.y);
       } else if (this._.crashed) {
@@ -68,7 +72,9 @@
         
         for (var i = 0; i < 13; i ++) {
           var part = this._.animation.crashing[i];
-          ctx.drawImage(imageCache.ship.default.crashing[i], this._.animation.crashing[i].x, this._.animation.crashing[i].y);
+          if (part) {
+            ctx.drawImage(imageCache.ship.default.crashing[i], this._.animation.crashing[i].x, this._.animation.crashing[i].y);
+          }
         };
       } else if (this.image) {
         var imageIndex = Math.floor((this.planet_distance() - 100) / 4);
@@ -159,7 +165,7 @@
           this.projectiles = [];
           vals[key].forEach(function(projectileData) {
             // TODO: wtf is going on?
-            var projectile = new window.Projectile(that, projectileData);
+            var projectile = new window.Projectile(this, projectileData);
             that.projectiles.push(projectile);
           });
         } else if (vals.hasOwnProperty(key)) {
@@ -289,7 +295,7 @@
         var data = JSON.parse(JSON.stringify(this._))
         data.x += 25;
         data.y += 25;
-        var projectile = new Projectile(data);
+        var projectile = new Projectile(this, data);
         this.projectiles.unshift(projectile);
         this.projectiles.length = 100;
         this._lastFire = Date.now();
