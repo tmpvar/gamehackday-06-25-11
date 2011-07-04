@@ -21,7 +21,7 @@
       scene.update(gameState);
 
       if (scene.hasPlayer(socket.socket.sessionid)) {
-        var ship = scene.getPlayer(socket.socket.sessionid);
+        var ship = window.ship = scene.getPlayer(socket.socket.sessionid);
 
         /*
           Keybinds

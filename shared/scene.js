@@ -70,7 +70,7 @@
       var player = keys.length; 
 
       while(player--) {
-        this.players[keys[player]].render(context, timeDiff);
+        this.players[keys[player]].render(context, timeDiff, window.ship._.id === this.players[keys[player]]._.id);
       };
 
     }

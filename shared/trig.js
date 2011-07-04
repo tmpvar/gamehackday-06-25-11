@@ -19,10 +19,10 @@
   };
 
   exports.CONST = {
-    THRUST : 10, // units
+    THRUST : 20,//10, // units
     ROTATION_DELTA : 0.006, // degrees
-    MAX_SPEED: 6,
-    GRAVITY: 750
+    MAX_SPEED: 60, //6,
+    GRAVITY: 1000//750
   
   };
 })(typeof window === 'undefined' ? exports : window);

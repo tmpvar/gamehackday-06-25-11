@@ -4,7 +4,7 @@
     var CONST      = require('./trig').CONST;
     var Projectile = require('./projectile').Projectile;
   }
-  
+
   var MAX_HEALTH = 100;
 
   exports.Ship = function(initial_state) {
@@ -16,7 +16,7 @@
       velocity: 0,
       thrust: 0,
       fuel: 100,
-      health : MAX_HEALTH,
+      health : 100,
       x: undefined,
       y: undefined
     };
@@ -41,7 +41,7 @@
       crashing: []
     }
 
-    this.render = function(ctx, timeDiff) {
+    this.render = function(ctx, timeDiff, player) {
       ctx.save()
       ctx.translate(400, 300)
       ctx.scale(window.scale, window.scale)
@@ -49,14 +49,24 @@
       ctx.translate(this._.x + 25, this._.y + 25); //that._.x, that._.y);
 
       ctx.rotate(Math.PI/2);
-      var R=Math.floor(255*(100-this._.health))/100;
-      var G=Math.floor((255*(this._.health/100)));
+
+      var size = this._.health/100;
+      var color = Math.round((this._.health / 100) * 255);
+      var R = 255 - color;
+      var G = color;
       var B=0;
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillStyle = "rgba(255,255,255,0.3)";
       ctx.fillRect(-45, -25, 5, 50);
-      ctx.fillStyle = 'rgba(' + R + ',' + G + ',' + B + ', 1.0)';
-      var size = (this._.health/100);
-      ctx.fillRect(-45, 25-(50*size), 5, 50*size);
+      ctx.fillStyle = 'rgba(' + R + ',' + G + ',' + B + ', 1)';
+      ctx.fillRect(-45, 25-(50*size), 5, 48*size);
+
+      if (player) {
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(0,127,255,0.5)";
+        ctx.arc(0, 0, (40*size), 0, Math.PI*2, true); // Outer circle
+        ctx.stroke();
+      }
+
       ctx.rotate(-Math.PI/2);
 
       ctx.rotate(this._.rotation + (Math.PI * 0.5));
@@ -65,13 +75,14 @@
       if (this._.landed) {
         ctx.drawImage(imageCache.ship.default.landing[4], this._.x, this._.y);
       } else if (this._.crashed) {
+
         this.animation.landing += timeDiff;
-        ctx.save()
+        ctx.save();
         var imageIndex = Math.floor(this.animation.landing / 1000);
         if (imageIndex >= 2) imageIndex = 2;
         ctx.drawImage(imageCache.ship.default.crunching[imageIndex % 1], this._.x, this._.y);
         ctx.restore()
-        
+
         for (var i = 0; i < 13; i ++) {
           var part = this._.animation.crashing[i];
           if (part) {
@@ -79,11 +90,11 @@
           }
         };
       } else if (this.image) {
+
         var imageIndex = Math.floor((this.planet_distance() - 100) / 4);
         if (imageIndex < 5) {
           imageIndex = 4 - imageIndex;
           if (imageIndex > 4) imageIndex = 4;
-          
           ctx.drawImage(imageCache.ship.default.landing[imageIndex], this._.x, this._.y)  
         } else {
           ctx.drawImage(this.image, this._.x, this._.y)
@@ -260,6 +271,16 @@
     },
 
     handleKeys: function(heldKeys) {
+      if (this._.crashed) {
+        // respawn
+        if (heldKeys['32']) {
+          this._.crashed = false;
+          this._.x = 0;
+          this._.y = 0;
+        }
+        return;
+      }
+
       // Forward
       if (heldKeys['38']) {
         if (this._.landed) {

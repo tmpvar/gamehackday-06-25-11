@@ -36,12 +36,13 @@
             ship._.y < newy && ship.height + ship._.y > newy)
         {
           // ship got hit.
-          ship._.health -= 10;
+          ship._.health -= 5;
           if (ship._.health <= 0) {
             ship._.health = 0;
             ship._.crashed = true;
-            this._.active = false;
+            
           }
+          this._.active = false;
         }
       }
     },
