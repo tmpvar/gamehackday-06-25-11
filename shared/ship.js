@@ -36,7 +36,7 @@
       landing: 0,
       crashing: []
     }
-    
+
     this._.animation = {
       crashing: []
     }
@@ -101,7 +101,7 @@
         if (imageIndex < 5) {
           imageIndex = 4 - imageIndex;
           if (imageIndex > 4) imageIndex = 4;
-          ctx.drawImage(imageCache.ship.default.landing[imageIndex], this._.x, this._.y)  
+          ctx.drawImage(imageCache.ship.default.landing[imageIndex], this._.x, this._.y)
         } else {
           ctx.drawImage(this.image, this._.x, this._.y)
         }
@@ -115,7 +115,7 @@
           ctx.translate(this._.x + 22, this._.y + 50);
           var imageIndex = (this.animation.trails.big % 50) % 4;
           if (this.trails.large[imageIndex]) {
-            ctx.scale(2.0);
+            ctx.scale(2.0, 2.0);
             ctx.drawImage(this.trails.large[imageIndex], -7, 2);
           }
           ctx.restore();
@@ -129,7 +129,7 @@
           ctx.translate(this._.x + 34, this._.y + 35);
           var imageIndex = (this.animation.trails.big % 50) % 4;
           if (this.trails.small[imageIndex]) {
-            ctx.scale(2.0);
+            ctx.scale(2.0, 2.0);
             ctx.drawImage(this.trails.small[imageIndex], -6, 2);
           }
           ctx.restore();
@@ -141,7 +141,7 @@
           ctx.translate(this._.x + 10, this._.y + 35);
           var imageIndex = (this.animation.trails.big % 50) % 4;
           if (this.trails.small[imageIndex]) {
-            ctx.scale(2.0);
+            ctx.scale(2.0, 2.0);
             ctx.drawImage(this.trails.small[imageIndex], -5, 2);
           }
           ctx.restore();
@@ -150,7 +150,7 @@
         if (this.heldKeys['40']) {
           this.animation.trails.big += timeDiff;
           ctx.save();
-        
+
           var imageIndex = (this.animation.trails.big % 50) % 4;
           if (this.trails.small[imageIndex]) {
             ctx.translate(this._.x + 33, this._.y-0.5);
@@ -164,11 +164,11 @@
       }
 
       ctx.restore();
-      
+
       this.projectiles.forEach(function(projectile) {
         projectile.render(ctx, timeDiff);
       });
-      
+
     };
   }
 
@@ -205,11 +205,11 @@
       y += Math.sin(planet_angle) * ((CONST.GRAVITY / Math.pow(planet_distance, 2)));
 
       // update the ship position due to speed
-      
+
       if (planet_distance < 100) { // contact planet
         planet_angle = (planet_angle - Math.PI) % (Math.PI * 2)
         var rotation = this._.rotation % (Math.PI * 2)
-        
+
         if (this._.velocity <= 2 && (rotation > planet_angle - 0.4) && (rotation < planet_angle + 0.4)) { // land
           this._.landed = true;
           this._.rotation = planet_angle;
@@ -232,9 +232,9 @@
         }
 
       } else { // flying
-        
+
         this._.landed = false;
-        
+
         this._.rotation += this._.rotation_delta;
         this._.velocity = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
@@ -242,7 +242,7 @@
         if (this._.velocity < 0) this._.velocity = 0;
 
         this._.velocity_angle = calc_angle(x, y)
-        
+
         this._.x += x;
         this._.y += y;
 
@@ -292,11 +292,11 @@
       // Forward
       if (heldKeys['38']) {
         if (this._.landed) {
-          
+
           this._.landed = false;
           this.addVelocity(CONST.THRUST*40);
         }
-  
+
         // Thrust forward!
         this.addVelocity(CONST.THRUST);
       }

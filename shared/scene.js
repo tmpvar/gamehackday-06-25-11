@@ -52,7 +52,7 @@
 
     tick : function() {
       var that = this;
-      Object.keys(this.players).forEach(function(player_key) { 
+      Object.keys(this.players).forEach(function(player_key) {
         var player = that.players[player_key];
         player.tick(that);
       });
@@ -65,12 +65,13 @@
         this.planets[planet].render(context, timeDiff);
       };
 
-      
+
       var keys = Object.keys(this.players);
-      var player = keys.length; 
+      var player = keys.length;
 
       while(player--) {
-        this.players[keys[player]].render(context, timeDiff, window.ship._.id === this.players[keys[player]]._.id);
+        var currentPlayer = window.ship && window.ship._ && window.ship._.id === this.players[keys[player]]._.id;
+        this.players[keys[player]].render(context, timeDiff, currentPlayer);
       };
 
     }

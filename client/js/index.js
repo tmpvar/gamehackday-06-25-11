@@ -2,7 +2,7 @@
   /*
     Bootstrap the browser
   */
-  
+
   valid_keys = {
     32 : true,
     37 : true,
@@ -20,8 +20,8 @@
       scene.addPlanet(new Planet());
       scene.update(gameState);
 
-      if (scene.hasPlayer(socket.socket.sessionid)) {
-        var ship = window.ship = scene.getPlayer(socket.socket.sessionid);
+      if (scene.hasPlayer(socket.id)) {
+        var ship = window.ship = scene.getPlayer(socket.id);
 
         /*
           Keybinds
@@ -45,8 +45,8 @@
         setInterval(function() {
           socket.emit('keys', ship.heldKeys);
         }, 33);
-        
-        
+
+
         socket.on('tick', function(gameState) {
           scale = ship.planet_distance();
           $("#vel").html(scale)
